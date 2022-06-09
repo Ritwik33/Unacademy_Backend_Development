@@ -2,17 +2,11 @@ package com.ritwik;
 
 import org.springframework.stereotype.Component;
 
-
-/**
- * it will create a person bean and keep it inside spring container
- */
 @Component
 public class Person {
 
     private String name;
     private int age;
-
-    private Car car;
 
     public String getName() {
         return name;
@@ -30,15 +24,15 @@ public class Person {
         this.age = age;
     }
 
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
     }
 
     public void dance() {
-        System.out.println("Dancing in the tunes of Spring");
+        System.out.println("dancing in the tunes of spring...");
     }
 }

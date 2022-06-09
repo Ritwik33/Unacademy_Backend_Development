@@ -9,7 +9,9 @@ class App {
         ApplicationContext ctx = new AnnotationConfigApplicationContext("com.ritwik");
 
         Person person = (Person) ctx.getBean("person");
+        Person person1 = (Person) ctx.getBean("person");
 
-        System.out.println(person.toString());
+        System.out.println(person.hashCode());
+        System.out.println(person1.hashCode());
     }
-}
+} 

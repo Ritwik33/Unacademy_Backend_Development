@@ -56,14 +56,18 @@ public class MovieBookingSystemApplication {
 		 * update operation / updation
 		 */
 
-		movie.setMovieDescription("updated description");
+		/**
+		 * description updation
+		 */
+
+		movie.setMovieDescription("very very very nice movie");
 		movieDao.save(movie);
 
 		/**
 		 * delete operation
 		 */
 
-		movieDao.delete(searchedMovie);
+//		movieDao.delete(searchedMovie);
 
 		Movie movie2 = new Movie();
 		movie2.setMovieId(4); // whether we provide or not it doesn't care ...
@@ -77,6 +81,10 @@ public class MovieBookingSystemApplication {
 		Movie savedObject2 = movieDao.save(movie2);
 
 		List<Movie> result = movieDao.findByDurationGreaterThanEqual(150);
-		System.out.println("result : " + result);
+		List<Movie> result1 = movieDao.findByMovieName("endgame");
+		List<Movie> result2 = movieDao.findByMovieNameAndDuration("keshari", 150);
+		System.out.println(result);
+		System.out.println(result1);
+		System.out.println(result2);
 	}
 }

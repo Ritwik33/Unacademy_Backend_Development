@@ -4,25 +4,28 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Movie_Table")
 public class Movie {
-
-    /**
-     * this indicates that movieId will be the primary key...
-     */
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int movieId;
 
+    @Column(length = 50, nullable = false, unique = true)
     private String movieName;
 
-    @Column(name = "movie_desc", length = 500, nullable = false)
+    @Column(length = 500, nullable = false, name = "movie_desc")
     private String movieDescription;
 
+    @Column(nullable = false)
     private LocalDateTime releaseDate;
+
+    @Column(nullable = false)
     private int duration;
+
+    @Column(length = 500, nullable = false)
     private String coverPhotoUrl;
+
+    @Column(length = 500, nullable = false)
     private String trailerUrl;
 
     public int getMovieId() {

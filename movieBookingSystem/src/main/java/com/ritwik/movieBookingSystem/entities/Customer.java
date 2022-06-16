@@ -10,14 +10,14 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int customerId;
 
-    @Column(length = 20, nullable = false)
+    @Column(name = "first_name", length = 20, nullable = false)
     private String firstName;
 
     @Column(length = 20)
     private String lastName;
 
     @Column(length = 20, nullable = false, unique = true)
-    private String username;
+    private String userName;
 
     @Column(length = 20, nullable = false)
     private String password;
@@ -49,12 +49,12 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -75,11 +75,11 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
+        return "User{" +
                 "customerId=" + customerId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", username='" + username + '\'' +
+                ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 '}';

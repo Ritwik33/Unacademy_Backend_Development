@@ -1,9 +1,7 @@
 package com.ritwik.movieBookingSystem.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class City {
@@ -14,6 +12,14 @@ public class City {
 
     @Column(length = 20, nullable = false)
     private String cityName;
+
+    /**
+     * default fetch strategy will be lazy
+     */
+
+//  @OneToMany --> this annotation leads to the creation of an additional table city_theatres which is redundant ...
+    @OneToMany(mappedBy = "city") // mapped by the city table primary key ...
+    private Set<Theatre> theatres;
 
     public City() {
     }
@@ -43,11 +49,20 @@ public class City {
         this.cityName = cityName;
     }
 
+    public Set<Theatre> getTheatres() {
+        return theatres;
+    }
+
+    public void setTheatres(Set<Theatre> theatres) {
+        this.theatres = theatres;
+    }
+
     @Override
     public String toString() {
         return "City{" +
                 "cityId=" + cityId +
                 ", cityName='" + cityName + '\'' +
+                ", theatres=" + theatres +
                 '}';
     }
 }

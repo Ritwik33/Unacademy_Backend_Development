@@ -1,6 +1,7 @@
 package com.ritwik.movieBookingSystem.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Theatre {
@@ -14,6 +15,9 @@ public class Theatre {
 
     @Column(nullable = false)
     private float ticketPrice = 150.00f;
+
+    @ManyToMany
+    private List<Movie> movies;
 
     /**
      * foreign key

@@ -2,6 +2,7 @@ package com.ritwik.movieBookingSystem.entities;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Movie {
@@ -27,6 +28,9 @@ public class Movie {
 
     @Column(length = 500, nullable = false)
     private String trailerUrl;
+
+    @ManyToMany
+    private List<Theatre> theatres;
 
     public int getMovieId() {
         return movieId;

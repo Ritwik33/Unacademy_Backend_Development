@@ -88,6 +88,14 @@ public class Movie {
         this.trailerUrl = trailerUrl;
     }
 
+    public List<Theatre> getTheatres() {
+        return theatres;
+    }
+
+    public void setTheatres(List<Theatre> theatres) {
+        this.theatres = theatres;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -98,6 +106,7 @@ public class Movie {
                 ", duration=" + duration +
                 ", coverPhotoUrl='" + coverPhotoUrl + '\'' +
                 ", trailerUrl='" + trailerUrl + '\'' +
+                ", theatres=" + theatres +
                 '}';
     }
 }

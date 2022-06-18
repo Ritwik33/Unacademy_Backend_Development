@@ -64,12 +64,21 @@ public class Theatre {
         this.city = city;
     }
 
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
     @Override
     public String toString() {
         return "Theatre{" +
                 "theatreId=" + theatreId +
                 ", theatreName='" + theatreName + '\'' +
                 ", ticketPrice=" + ticketPrice +
+                ", movies=" + movies +
                 ", city=" + city +
                 '}';
     }

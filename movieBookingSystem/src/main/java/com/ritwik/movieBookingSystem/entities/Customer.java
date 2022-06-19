@@ -2,22 +2,23 @@ package com.ritwik.movieBookingSystem.entities;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int customerId;
+    private int userId;
 
-    @Column(name = "first_name", length = 20, nullable = false)
+    @Column(length = 20, nullable = false)
     private String firstName;
 
     @Column(length = 20)
     private String lastName;
 
     @Column(length = 20, nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     @Column(length = 20, nullable = false)
     private String password;
@@ -25,12 +26,22 @@ public class Customer {
     @Column(nullable = false)
     private LocalDateTime dateOfBirth;
 
-    public int getCustomerId() {
-        return customerId;
+    /**
+     * User can have multiple mobile phone numbers ...
+     * @return
+     */
+
+    @ElementCollection
+    @CollectionTable(name = "user_contact_number", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "mobile_number", nullable = false)
+    private Set<Integer> phoneNumbers;
+
+    public int getUserId() {
+        return userId;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -49,12 +60,12 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -73,15 +84,24 @@ public class Customer {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Set<Integer> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(Set<Integer> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "customerId=" + customerId +
+        return "Customer{" +
+                "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
+                ", phoneNumbers=" + phoneNumbers +
                 '}';
     }
 }

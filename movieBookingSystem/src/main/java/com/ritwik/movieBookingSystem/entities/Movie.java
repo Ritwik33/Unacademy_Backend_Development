@@ -29,6 +29,7 @@ public class Movie {
     @Column(length = 500, nullable = false)
     private String trailerUrl;
 
+    @JoinTable(joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "theatre_id"))
     @ManyToMany
     private List<Theatre> theatres;
 

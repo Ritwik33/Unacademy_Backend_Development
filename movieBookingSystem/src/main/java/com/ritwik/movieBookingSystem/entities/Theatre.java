@@ -16,7 +16,7 @@ public class Theatre {
     @Column(nullable = false)
     private float ticketPrice = 150.00f;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "theatres")
     private List<Movie> movies;
 
     /**

@@ -12,9 +12,6 @@ import java.util.*;
 @SpringBootApplication
 public class MovieBookingSystemApplication {
 	public static void main(String[] args) {
-
-		ApplicationContext ctx = SpringApplication.run(MovieBookingSystemApplication.class, args);
-
-
+		SpringApplication.run(MovieBookingSystemApplication.class, args);
 	}
 }

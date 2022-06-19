@@ -33,6 +33,10 @@ public class Movie {
     @ManyToMany
     private List<Theatre> theatres;
 
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private Status status;
+
     public int getMovieId() {
         return movieId;
     }
@@ -97,6 +101,14 @@ public class Movie {
         this.theatres = theatres;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -108,6 +120,7 @@ public class Movie {
                 ", coverPhotoUrl='" + coverPhotoUrl + '\'' +
                 ", trailerUrl='" + trailerUrl + '\'' +
                 ", theatres=" + theatres +
+                ", status=" + status +
                 '}';
     }
 }

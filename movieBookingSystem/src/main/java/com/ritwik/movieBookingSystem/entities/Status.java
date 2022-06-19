@@ -1,9 +1,7 @@
 package com.ritwik.movieBookingSystem.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Status {
@@ -14,6 +12,9 @@ public class Status {
 
     @Column(length = 20, nullable = false, unique = true)
     private String statusName;
+
+    @OneToMany(mappedBy = "status")
+    private List<Movie> movies;
 
     public Status() {
     }
@@ -38,11 +39,20 @@ public class Status {
         this.statusName = statusName;
     }
 
+    public List<Movie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
     @Override
     public String toString() {
         return "Status{" +
                 "statusId=" + statusId +
                 ", statusName='" + statusName + '\'' +
+                ", movies=" + movies +
                 '}';
     }
 }

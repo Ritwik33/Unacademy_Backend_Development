@@ -2,7 +2,7 @@ package com.ritwik.movieBookingSystem.services.impl;
 
 import com.ritwik.movieBookingSystem.dao.MovieDao;
 import com.ritwik.movieBookingSystem.entities.Movie;
-import com.ritwik.movieBookingSystem.exceptions.MovieDetailNotFoundException;
+import com.ritwik.movieBookingSystem.exceptions.MovieDetailsNotFoundException;
 import com.ritwik.movieBookingSystem.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,23 +32,23 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getMovieDetails(int id) throws MovieDetailNotFoundException {
+    public Movie getMovieDetails(int id) throws MovieDetailsNotFoundException {
 
         /**
          * fetch the movie details based on id
          */
 
-        return movieDao.findById(id).orElseThrow(() -> new MovieDetailNotFoundException("Movie not found for id" + id));
+        return movieDao.findById(id).orElseThrow(() -> new MovieDetailsNotFoundException("Movie not found for id" + id));
     }
 
     @Override
-    public Movie updateMovieDetails(int id, Movie movie) throws MovieDetailNotFoundException {
+    public Movie updateMovieDetails(int id, Movie movie) throws MovieDetailsNotFoundException {
         /**
          * update the movie
          */
 
         Movie savedMovie =
-                movieDao.findById(id).orElseThrow(() -> new MovieDetailNotFoundException("Movie not found for id" + id));
+                movieDao.findById(id).orElseThrow(() -> new MovieDetailsNotFoundException("Movie not found for id" + id));
 
         /**
          * read the attributes from the movie object and update it in savedMovie ...
@@ -86,7 +86,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public boolean deleteMovie(int id) throws MovieDetailNotFoundException {
+    public boolean deleteMovie(int id) throws MovieDetailsNotFoundException {
         Movie savedMovie = getMovieDetails(id);
         movieDao.delete(savedMovie);
         return true;

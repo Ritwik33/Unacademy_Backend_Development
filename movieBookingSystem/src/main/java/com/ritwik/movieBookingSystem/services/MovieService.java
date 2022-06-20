@@ -1,7 +1,7 @@
 package com.ritwik.movieBookingSystem.services;
 
 import com.ritwik.movieBookingSystem.entities.Movie;
-import com.ritwik.movieBookingSystem.exceptions.MovieDetailNotFoundException;
+import com.ritwik.movieBookingSystem.exceptions.MovieDetailsNotFoundException;
 
 import java.util.List;
 
@@ -21,19 +21,19 @@ public interface MovieService {
      * i want to get the movie details based on movie id
      */
 
-    public Movie getMovieDetails(int id) throws MovieDetailNotFoundException;
+    public Movie getMovieDetails(int id) throws MovieDetailsNotFoundException;
 
     /**
      * I want to update the details of existing movie
      */
 
-    public Movie updateMovieDetails(int id, Movie movie) throws MovieDetailNotFoundException;
+    public Movie updateMovieDetails(int id, Movie movie) throws MovieDetailsNotFoundException;
 
     /**
      * I want to have a method to delete a movie
      */
 
-    public boolean deleteMovie(int id) throws MovieDetailNotFoundException;
+    public boolean deleteMovie(int id) throws MovieDetailsNotFoundException;
 
     /**
      * I want to get the list of all the movies present

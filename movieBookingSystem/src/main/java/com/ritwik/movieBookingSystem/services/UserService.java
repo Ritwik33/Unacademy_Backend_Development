@@ -5,8 +5,6 @@ import com.ritwik.movieBookingSystem.exceptions.UserDetailsNotFoundException;
 import com.ritwik.movieBookingSystem.exceptions.UserNameAlreadyExistsException;
 import com.ritwik.movieBookingSystem.exceptions.UserTypeDetailsNotFoundException;
 
-import java.util.Optional;
-
 public interface UserService {
 
     /**
@@ -34,5 +32,5 @@ public interface UserService {
      * update the user details
      */
 
-    public Users updateUserDetails(int id, Users users) throws UserDetailsNotFoundException, UserNameAlreadyExistsException, UserNameAlreadyExistsException;
+    public Users updateUserDetails(int id, Users users) throws UserDetailsNotFoundException, UserNameAlreadyExistsException, UserTypeDetailsNotFoundException;
 }

@@ -34,7 +34,7 @@ public class Movie {
     private List<Theatre> theatres;
 
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
     public int getMovieId() {

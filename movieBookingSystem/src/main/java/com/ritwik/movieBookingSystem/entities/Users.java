@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-public class Customer {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,10 +31,21 @@ public class Customer {
      * @return
      */
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_contact_number", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "mobile_number", nullable = false)
     private Set<Integer> phoneNumbers;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Booking> bookings;
+
+    @ManyToOne
+    @JoinColumn(name = "user_type_id", nullable = false)
+    private UserType userType;
+
+    @ManyToOne
+    @JoinColumn(name = "language_id", nullable = false)
+    private Language language;
 
     public int getUserId() {
         return userId;
@@ -92,9 +103,33 @@ public class Customer {
         this.phoneNumbers = phoneNumbers;
     }
 
+    public Set<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
     @Override
     public String toString() {
-        return "Customer{" +
+        return "Users{" +
                 "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -102,6 +137,9 @@ public class Customer {
                 ", password='" + password + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", phoneNumbers=" + phoneNumbers +
+                ", bookings=" + bookings +
+                ", userType=" + userType +
+                ", language=" + language +
                 '}';
     }
 }

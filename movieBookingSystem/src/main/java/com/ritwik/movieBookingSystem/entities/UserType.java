@@ -1,9 +1,7 @@
 package com.ritwik.movieBookingSystem.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class UserType {
@@ -14,6 +12,9 @@ public class UserType {
 
     @Column(length = 20, unique = true)
     private String userTypeName = "Customer";
+
+    @OneToMany(mappedBy = "userType")
+    private List<Users> users;
 
     public UserType() {
     }
@@ -38,11 +39,20 @@ public class UserType {
         this.userTypeName = userTypeName;
     }
 
+    public List<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<Users> users) {
+        this.users = users;
+    }
+
     @Override
     public String toString() {
         return "UserType{" +
                 "userTypeId=" + userTypeId +
                 ", userTypeName='" + userTypeName + '\'' +
+                ", users=" + users +
                 '}';
     }
 }

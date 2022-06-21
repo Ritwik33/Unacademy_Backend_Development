@@ -1,7 +1,6 @@
 package com.ritwik.movieBookingSystem.services.impl;
 
 import com.ritwik.movieBookingSystem.entities.*;
-import com.ritwik.movieBookingSystem.exceptions.*;
 import com.ritwik.movieBookingSystem.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

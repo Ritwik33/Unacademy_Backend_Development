@@ -1,7 +1,5 @@
 package com.ritwik.movieBookingSystem.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 

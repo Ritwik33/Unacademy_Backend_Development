@@ -37,8 +37,6 @@ public class Movie {
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
-
-
     public int getMovieId() {
         return movieId;
     }

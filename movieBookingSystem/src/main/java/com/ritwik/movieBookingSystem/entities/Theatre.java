@@ -32,6 +32,15 @@ public class Theatre {
     @JoinColumn(name = "city_id", nullable = false) // @JoinColumn is used on a foreign key column ...
     private City city;
 
+    public Theatre(String theatreName, float ticketPrice, City city) {
+        this.theatreName = theatreName;
+        this.ticketPrice = ticketPrice;
+        this.city = city;
+    }
+
+    public Theatre() {
+    }
+
     public int getTheatreId() {
         return theatreId;
     }

@@ -31,10 +31,6 @@ public class CityServiceImplTest {
     @InjectMocks
     private CityServiceImpl cityService;
 
-    /**
-     * acceptCityDetails
-     */
-
     @BeforeEach
     private void addFunctionalityToMockedCityDao() {
         Mockito.when(cityDao.save(new City("Bangalore"))).
@@ -47,9 +43,18 @@ public class CityServiceImplTest {
         Mockito.when(cityDao.findById(2)).
                 thenReturn(Optional.of(new City(2, "Mumbai")));
 
+        /**
+         * mock the function for save
+         */
+
         Mockito.when(cityDao.save(new City(2, "MumbaiNew"))).
                 thenReturn(new City(2, "MumbaiNew"));
+
     }
+
+    /**
+     * acceptCityDetails
+     */
 
     @Test
     public void acceptCityDetailsTest() {
@@ -70,6 +75,10 @@ public class CityServiceImplTest {
      * acceptMultipleCityDetails
      */
 
+    public void acceptMultipleCityDetailsTest() {
+
+    }
+
     /**
      * updateCityDetails
      */
@@ -87,15 +96,32 @@ public class CityServiceImplTest {
      * getCityDetails
      */
 
+    public void getCityDetailsTest() {
+
+    }
+
     /**
      * getCityDetailsByCityName
      */
+
+    public void getCityDetailsByCityNameTest() {
+
+    }
 
     /**
      * deleteCity
      */
 
+    public void deleteCityTest() {
+
+    }
+
     /**
      * getAllCityDetails
      */
+
+    public void getAllCityDetailsTest() {
+
+    }
+
 }

@@ -47,8 +47,6 @@ public class Users {
     @JoinColumn(name = "language_id", nullable = false)
     private Language language;
 
-
-
     public int getUserId() {
         return userId;
     }

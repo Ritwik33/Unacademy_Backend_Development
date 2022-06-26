@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -50,6 +52,31 @@ public class CityServiceImplTest {
         Mockito.when(cityDao.save(new City(2, "MumbaiNew"))).
                 thenReturn(new City(2, "MumbaiNew"));
 
+        /**
+         * mocking the acceptMultipleCitiesDetails method
+         */
+
+        Mockito.when(cityDao.save(new City(1, "ranchi"))).
+                thenReturn(new City(1, "ranchi"));
+
+        Mockito.when(cityDao.save(new City(2, "mumbai"))).
+                thenReturn(new City(2, "mumbai"));
+
+        Mockito.when(cityDao.save(new City(3, "delhi"))).
+                thenReturn(new City(3, "delhi"));
+
+        Mockito.when(cityDao.findByCityName("mumbai")).
+                thenReturn(new City(1, "mumbai"));
+
+        List<City> cities = Arrays.asList(
+                new City(1, "mumbai"),
+                new City(2, "delhi"),
+                new City(3, "bangalore"),
+                new City(4, "chandigarh")
+        );
+
+        Mockito.when(cityDao.findAll()).thenReturn(cities);
+
     }
 
     /**
@@ -75,8 +102,22 @@ public class CityServiceImplTest {
      * acceptMultipleCityDetails
      */
 
+    @Test
     public void acceptMultipleCityDetailsTest() {
 
+        List<City> cities = Arrays.asList(
+                new City(1, "ranchi"),
+                new City(2, "mumbai"),
+                new City(3, "delhi"));
+
+        List<City> savedCities = cityService.acceptMultipleCityDetails(cities);
+
+        Assertions.assertNotNull(savedCities);
+        savedCities.forEach(city -> Assertions.assertNotNull(city));
+        Assertions.assertEquals(savedCities.size(), cities.size());
+        for(int i = 0;i<savedCities.size();i++) {
+            Assertions.assertEquals(cities.get(i).getCityId(), savedCities.get(i).getCityId());
+        }
     }
 
     /**
@@ -96,16 +137,22 @@ public class CityServiceImplTest {
      * getCityDetails
      */
 
-    public void getCityDetailsTest() {
-
+    @Test
+    public void getCityDetailsTest() throws CityDetailsNotFoundException {
+        City city = cityService.getCityDetails(2);
+        Assertions.assertNotNull(city);
+        Assertions.assertEquals("Mumbai", city.getCityName());
     }
 
     /**
      * getCityDetailsByCityName
      */
 
-    public void getCityDetailsByCityNameTest() {
-
+    @Test
+    public void getCityDetailsByCityNameTest() throws CityDetailsNotFoundException {
+        City city = cityService.getCityDetailsByCityName("mumbai");
+        Assertions.assertNotNull(city);
+        Assertions.assertEquals(1, city.getCityId());
     }
 
     /**
@@ -120,8 +167,12 @@ public class CityServiceImplTest {
      * getAllCityDetails
      */
 
+    @Test
     public void getAllCityDetailsTest() {
-
+        List<City> cities = cityService.getAllCityDetails();
+        Assertions.assertNotNull(cities);
+        cities.forEach(city -> Assertions.assertNotNull(city));
+        cities.forEach(city -> System.out.println(city));
     }
 
 }

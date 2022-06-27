@@ -186,7 +186,7 @@ public class InitServiceImpl implements InitService {
         movie.setReleaseDate(LocalDateTime.of(2022, 6, 21, 17, 36));
         movie.setCoverPhotoUrl("movie_cover_photo_url");
         movie.setTrailerUrl("movie_trailer_url");
-        movie.setTheatres(List.of(theatres.get(0), theatres.get(1)));
+//        movie.setTheatres(List.of(theatres.get(0), theatres.get(1)));
 
         movieService.acceptMovieDetails(movie);
     }

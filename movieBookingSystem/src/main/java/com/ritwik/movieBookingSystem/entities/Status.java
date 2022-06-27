@@ -13,9 +13,6 @@ public class Status {
     @Column(length = 20, nullable = false, unique = true)
     private String statusName;
 
-    @OneToMany(mappedBy = "status", fetch = FetchType.EAGER)
-    private List<Movie> movies;
-
     public Status() {
     }
 
@@ -37,14 +34,6 @@ public class Status {
 
     public void setStatusName(String statusName) {
         this.statusName = statusName;
-    }
-
-    public List<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
     }
 
     @Override

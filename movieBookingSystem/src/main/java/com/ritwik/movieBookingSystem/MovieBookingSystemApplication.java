@@ -1,17 +1,21 @@
 package com.ritwik.movieBookingSystem;
 
-import com.ritwik.movieBookingSystem.services.InitService;
+import com.ritwik.movieBookingSystem.entities.*;
+import com.ritwik.movieBookingSystem.services.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class MovieBookingSystemApplication {
 	public static void main(String[] args) {
 
 		ApplicationContext ctx = SpringApplication.run(MovieBookingSystemApplication.class, args);
+
 
 	}
 

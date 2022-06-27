@@ -7,13 +7,13 @@ import java.util.List;
 public class Status {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int statusId;
 
     @Column(length = 20, nullable = false, unique = true)
     private String statusName;
 
-    @OneToMany(mappedBy = "status")
+    @OneToMany(mappedBy = "status", fetch = FetchType.EAGER)
     private List<Movie> movies;
 
     public Status() {
@@ -52,7 +52,6 @@ public class Status {
         return "Status{" +
                 "statusId=" + statusId +
                 ", statusName='" + statusName + '\'' +
-                ", movies=" + movies +
                 '}';
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public class Theatre {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int theatreId;
 
     @Column(length = 20, nullable = false, unique = true)
@@ -16,7 +16,7 @@ public class Theatre {
     @Column(nullable = false)
     private float ticketPrice = 150.00f;
 
-    @ManyToMany(mappedBy = "theatres")
+    @ManyToMany(mappedBy = "theatres", fetch = FetchType.EAGER)
     private List<Movie> movies;
 
     /**
@@ -87,7 +87,6 @@ public class Theatre {
                 "theatreId=" + theatreId +
                 ", theatreName='" + theatreName + '\'' +
                 ", ticketPrice=" + ticketPrice +
-                ", movies=" + movies +
                 ", city=" + city +
                 '}';
     }

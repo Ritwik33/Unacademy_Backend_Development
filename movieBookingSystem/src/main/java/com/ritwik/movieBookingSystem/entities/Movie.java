@@ -30,7 +30,7 @@ public class Movie {
     private String trailerUrl;
 
     @JoinTable(joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "theatre_id"))
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Theatre> theatres;
 
     @ManyToOne
@@ -119,7 +119,6 @@ public class Movie {
                 ", duration=" + duration +
                 ", coverPhotoUrl='" + coverPhotoUrl + '\'' +
                 ", trailerUrl='" + trailerUrl + '\'' +
-                ", theatres=" + theatres +
                 ", status=" + status +
                 '}';
     }

@@ -8,7 +8,7 @@ import java.util.Set;
 public class City {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int cityId;
 
     @Column(length = 20, nullable = false)
@@ -63,7 +63,6 @@ public class City {
         return "City{" +
                 "cityId=" + cityId +
                 ", cityName='" + cityName + '\'' +
-                ", theatres=" + theatres +
                 '}';
     }
 

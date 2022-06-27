@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public class Booking {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int bookingId;
 
     @Column(nullable = false)

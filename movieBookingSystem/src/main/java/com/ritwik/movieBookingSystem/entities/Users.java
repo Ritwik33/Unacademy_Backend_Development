@@ -136,8 +136,6 @@ public class Users {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
-                ", phoneNumbers=" + phoneNumbers +
-                ", bookings=" + bookings +
                 ", userType=" + userType +
                 ", language=" + language +
                 '}';

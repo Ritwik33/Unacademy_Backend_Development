@@ -7,13 +7,13 @@ import java.util.List;
 public class UserType {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int userTypeId;
 
     @Column(length = 20, unique = true)
     private String userTypeName = "Customer";
 
-    @OneToMany(mappedBy = "userType")
+    @OneToMany(mappedBy = "userType", fetch = FetchType.EAGER)
     private List<Users> users;
 
     public UserType() {
@@ -52,7 +52,6 @@ public class UserType {
         return "UserType{" +
                 "userTypeId=" + userTypeId +
                 ", userTypeName='" + userTypeName + '\'' +
-                ", users=" + users +
                 '}';
     }
 }

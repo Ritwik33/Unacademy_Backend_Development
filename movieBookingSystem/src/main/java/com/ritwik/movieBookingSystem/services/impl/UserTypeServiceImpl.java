@@ -1,6 +1,6 @@
 package com.ritwik.movieBookingSystem.services.impl;
 
-import com.ritwik.movieBookingSystem.dao.UserTypeDao;
+import com.ritwik.movieBookingSystem.daos.UserTypeDao;
 import com.ritwik.movieBookingSystem.entities.UserType;
 import com.ritwik.movieBookingSystem.exceptions.UserTypeDetailsNotFoundException;
 import com.ritwik.movieBookingSystem.services.UserTypeService;

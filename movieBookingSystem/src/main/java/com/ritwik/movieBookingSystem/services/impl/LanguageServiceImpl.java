@@ -1,6 +1,6 @@
 package com.ritwik.movieBookingSystem.services.impl;
 
-import com.ritwik.movieBookingSystem.dao.LanguageDao;
+import com.ritwik.movieBookingSystem.daos.LanguageDao;
 import com.ritwik.movieBookingSystem.entities.Language;
 import com.ritwik.movieBookingSystem.exceptions.LanguageDetailsNotFoundException;
 import com.ritwik.movieBookingSystem.services.LanguageService;

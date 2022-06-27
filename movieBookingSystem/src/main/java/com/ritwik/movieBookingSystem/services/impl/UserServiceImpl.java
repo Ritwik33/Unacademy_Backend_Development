@@ -1,6 +1,6 @@
 package com.ritwik.movieBookingSystem.services.impl;
 
-import com.ritwik.movieBookingSystem.dao.UserDao;
+import com.ritwik.movieBookingSystem.daos.UserDao;
 import com.ritwik.movieBookingSystem.entities.Users;
 import com.ritwik.movieBookingSystem.exceptions.UserDetailsNotFoundException;
 import com.ritwik.movieBookingSystem.exceptions.UserNameAlreadyExistsException;

@@ -1,4 +1,4 @@
-package com.ritwik.movieBookingSystem.dao;
+package com.ritwik.movieBookingSystem.daos;
 
 import com.ritwik.movieBookingSystem.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;

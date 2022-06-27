@@ -1,6 +1,6 @@
 package com.ritwik.movieBookingSystem.services.impl;
 
-import com.ritwik.movieBookingSystem.dao.MovieDao;
+import com.ritwik.movieBookingSystem.daos.MovieDao;
 import com.ritwik.movieBookingSystem.entities.Movie;
 import com.ritwik.movieBookingSystem.exceptions.MovieDetailsNotFoundException;
 import com.ritwik.movieBookingSystem.services.MovieService;

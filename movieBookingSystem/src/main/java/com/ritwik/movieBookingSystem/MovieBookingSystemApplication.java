@@ -13,7 +13,6 @@ public class MovieBookingSystemApplication {
 
 		ApplicationContext ctx = SpringApplication.run(MovieBookingSystemApplication.class, args);
 
-
 	}
 
 	/**

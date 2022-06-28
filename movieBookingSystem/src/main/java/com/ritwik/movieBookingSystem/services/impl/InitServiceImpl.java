@@ -4,12 +4,14 @@ import com.ritwik.movieBookingSystem.entities.*;
 import com.ritwik.movieBookingSystem.exceptions.*;
 import com.ritwik.movieBookingSystem.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class InitServiceImpl implements InitService {
 
     @Autowired
@@ -97,6 +99,12 @@ public class InitServiceImpl implements InitService {
         createUserTypes();
 
         /**
+         * create languages
+         */
+
+        createLanguages();
+
+        /**
          * create users
          */
 
@@ -107,12 +115,6 @@ public class InitServiceImpl implements InitService {
          */
 
         createStatuses();
-
-        /**
-         * create languages
-         */
-
-        createLanguages();
 
         /**
          * create cities
@@ -245,6 +247,7 @@ public class InitServiceImpl implements InitService {
         user1.setPassword("mango@551");
         user1.setPhoneNumbers(Set.of(123, 456, 789));
         user1.setUserType(userTypes.get(1));
+        user1.setLanguage(languages.get(0));
 
         userService.acceptUserDetails(user1);
 
@@ -255,6 +258,7 @@ public class InitServiceImpl implements InitService {
         user2.setPassword("orange@786");
         user2.setPhoneNumbers(Set.of(321, 654, 987));
         user2.setUserType(userTypes.get(0));
+        user2.setLanguage(languages.get(0));
 
         userService.acceptUserDetails(user2);
     }

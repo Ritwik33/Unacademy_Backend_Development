@@ -1,6 +1,7 @@
 package com.ritwik.movieBookingSystem;
 
 import com.ritwik.movieBookingSystem.services.*;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,5 +27,15 @@ public class MovieBookingSystemApplication {
 		return args -> {
 			initService.init();
 		};
+	}
+
+	/**
+	 * this will store the manually created object as a bean in the spring container ...
+	 * @return
+	 */
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 }

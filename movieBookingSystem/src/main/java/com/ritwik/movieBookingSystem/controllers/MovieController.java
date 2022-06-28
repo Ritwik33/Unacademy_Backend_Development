@@ -1,18 +1,19 @@
 package com.ritwik.movieBookingSystem.controllers;
 
+import com.ritwik.movieBookingSystem.dtos.MovieDTO;
 import com.ritwik.movieBookingSystem.entities.Movie;
 import com.ritwik.movieBookingSystem.exceptions.MovieDetailsNotFoundException;
 import com.ritwik.movieBookingSystem.services.MovieService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,6 +24,16 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
+
+    /**
+     * we need to define the bean of ModelMapper first ...
+     *
+     * How to create the bean of a class which I have not created ???
+     * ---> create a method to return a ModelMapper Object and annotate that method with @Bean annotation ...
+     */
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/greetings")
     public ResponseEntity<String> greetings() {
@@ -39,8 +50,16 @@ public class MovieController {
      */
 
     @GetMapping
-    public ResponseEntity<List<Movie>> getAllMovies() {
-        return new ResponseEntity<List<Movie>>(movieService.getAllMovies(), HttpStatus.OK);
+    public ResponseEntity<List<MovieDTO>> getAllMovies() {
+
+        List<Movie> movies = movieService.getAllMovies();
+
+        List<MovieDTO> movieDTOS = new ArrayList<>();
+
+        movies.forEach(movie -> movieDTOS.add(convertMovieToMovieDTO(movie)));
+
+        return new ResponseEntity<List<MovieDTO>>(movieDTOS, HttpStatus.OK);
+
     }
 
     /**
@@ -50,10 +69,63 @@ public class MovieController {
      */
 
     @GetMapping("/{movieId}")
-    public ResponseEntity<Movie> getMovieBasedOnId(@PathVariable(name = "movieId") int movieId) throws MovieDetailsNotFoundException {
-        return new ResponseEntity<Movie>(movieService.getMovieDetails(movieId), HttpStatus.OK);
+    public ResponseEntity<MovieDTO> getMovieBasedOnId(@PathVariable(name = "movieId") int movieId) throws MovieDetailsNotFoundException {
+
+        Movie movie = movieService.getMovieDetails(movieId);
+
+        /**
+         * convert the Movie Object to MovieDto Object ...
+         */
+
+        MovieDTO movieDTO = convertMovieToMovieDTO(movie);
+
+        return new ResponseEntity<MovieDTO>(movieDTO, HttpStatus.OK);
+
     }
 
+    /**
+     * I want to create a new Movie
+     *
+     *  URI : POST 127.0.0.1:8080/mbs/v1/movies
+     *
+     *  BODY:
+     *    {
+     *       ----
+     *       ----
+     *       ----
+     *    }
+     *
+     */
 
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieDTO movieDTO) {
+
+        /**
+         * logic to create the movie
+         */
+
+        /**
+         * I need to create the new movie
+         */
+
+        /**
+         * i need to create movie object from movieDTO
+         */
+
+        Movie movie = modelMapper.map(movieDTO, Movie.class);
+        Movie savedMovie = movieService.acceptMovieDetails(movie);
+
+        MovieDTO responseBody = modelMapper.map(savedMovie, MovieDTO.class);
+
+        return new ResponseEntity<MovieDTO>(responseBody, HttpStatus.CREATED);
+
+    }
+
+    private MovieDTO convertMovieToMovieDTO(Movie movie) {
+
+        MovieDTO movieDTO =  modelMapper.map(movie, MovieDTO.class);
+        return movieDTO;
+
+    }
 
 }

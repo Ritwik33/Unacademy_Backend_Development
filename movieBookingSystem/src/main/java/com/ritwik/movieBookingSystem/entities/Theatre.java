@@ -17,6 +17,7 @@ public class Theatre {
     private float ticketPrice = 150.00f;
 
     @ManyToMany
+    @JoinTable(joinColumns = @JoinColumn(name = "theatre_id"), inverseJoinColumns = @JoinColumn(name = "movie_id"))
     private List<Movie> movies;
 
     /**

@@ -51,7 +51,18 @@ public class MovieController {
 
     @GetMapping("/{movieId}")
     public ResponseEntity<Movie> getMovieBasedOnId(@PathVariable(name = "movieId") int movieId) throws MovieDetailsNotFoundException {
+
+        /**
+         * I should not use Movie class to return the response to the client
+         * this is not a good practice ...
+         */
+
+        /**
+         * use entities for talking to database and use dtos for talking to clients ...
+         */
+
         return new ResponseEntity<Movie>(movieService.getMovieDetails(movieId), HttpStatus.OK);
+
     }
 
 

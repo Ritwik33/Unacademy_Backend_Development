@@ -11,10 +11,7 @@ public class UserType {
     private int userTypeId;
 
     @Column(length = 20, unique = true)
-    private String userTypeName = "Customer";
-
-    @OneToMany(mappedBy = "userType", fetch = FetchType.EAGER)
-    private List<Users> users;
+    private String userTypeName;
 
     public UserType() {
     }
@@ -37,14 +34,6 @@ public class UserType {
 
     public void setUserTypeName(String userTypeName) {
         this.userTypeName = userTypeName;
-    }
-
-    public List<Users> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<Users> users) {
-        this.users = users;
     }
 
     @Override

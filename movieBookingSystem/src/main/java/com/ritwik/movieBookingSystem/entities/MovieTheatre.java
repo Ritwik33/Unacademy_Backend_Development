@@ -17,6 +17,20 @@ public class MovieTheatre {
     @JoinColumn(name = "theatre_id", nullable = false)
     private Theatre theatre;
 
+    public MovieTheatre() {
+    }
+
+    public MovieTheatre(Movie movie, Theatre theatre) {
+        this.movie = movie;
+        this.theatre = theatre;
+    }
+
+    public MovieTheatre(int movieTheatreId, Movie movie, Theatre theatre) {
+        this.movieTheatreId = movieTheatreId;
+        this.movie = movie;
+        this.theatre = theatre;
+    }
+
     public int getMovieTheatreId() {
         return movieTheatreId;
     }

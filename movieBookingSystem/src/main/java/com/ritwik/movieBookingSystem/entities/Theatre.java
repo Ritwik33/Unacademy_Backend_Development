@@ -16,7 +16,7 @@ public class Theatre {
     @Column(nullable = false)
     private float ticketPrice = 150.00f;
 
-    @ManyToMany(mappedBy = "theatres", fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Movie> movies;
 
     /**

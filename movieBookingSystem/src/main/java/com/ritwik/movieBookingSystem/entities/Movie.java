@@ -29,10 +29,6 @@ public class Movie {
     @Column(length = 500, nullable = false)
     private String trailerUrl;
 
-    @JoinTable(joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "theatre_id"))
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Theatre> theatres;
-
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
@@ -91,14 +87,6 @@ public class Movie {
 
     public void setTrailerUrl(String trailerUrl) {
         this.trailerUrl = trailerUrl;
-    }
-
-    public List<Theatre> getTheatres() {
-        return theatres;
-    }
-
-    public void setTheatres(List<Theatre> theatres) {
-        this.theatres = theatres;
     }
 
     public Status getStatus() {

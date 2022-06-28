@@ -24,6 +24,13 @@ public class Booking {
     @JoinColumn(name = "movie_theatre_id", nullable = false)
     private MovieTheatre movieTheatre;
 
+    public Booking(LocalDateTime bookingDate, int noOfSeats, Users user, MovieTheatre movieTheatre) {
+        this.bookingDate = bookingDate;
+        this.noOfSeats = noOfSeats;
+        this.user = user;
+        this.movieTheatre = movieTheatre;
+    }
+
     public int getBookingId() {
         return bookingId;
     }

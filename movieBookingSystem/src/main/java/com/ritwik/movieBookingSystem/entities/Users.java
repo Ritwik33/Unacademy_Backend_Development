@@ -36,9 +36,6 @@ public class Users {
     @Column(name = "mobile_number", nullable = false)
     private Set<Integer> phoneNumbers;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<Booking> bookings;
-
     @ManyToOne
     @JoinColumn(name = "user_type_id", nullable = false)
     private UserType userType;
@@ -101,14 +98,6 @@ public class Users {
 
     public void setPhoneNumbers(Set<Integer> phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
-    }
-
-    public Set<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(Set<Booking> bookings) {
-        this.bookings = bookings;
     }
 
     public UserType getUserType() {

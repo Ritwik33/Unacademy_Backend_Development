@@ -4,30 +4,31 @@ import com.ritwik.movieBookingSystem.entities.*;
 import com.ritwik.movieBookingSystem.exceptions.*;
 import com.ritwik.movieBookingSystem.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-@Service
 public class InitServiceImpl implements InitService {
-
-    @Autowired
-    private CityService cityService;
 
     @Autowired
     private UserTypeService userTypeService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private StatusService statusService;
 
     @Autowired
-    private MovieService movieService;
+    private LanguageService languageService;
 
     @Autowired
-    private UserService userService;
+    private CityService cityService;
+
+    @Autowired
+    private MovieService movieService;
 
     @Autowired
     private TheatreService theatreService;
@@ -38,168 +39,228 @@ public class InitServiceImpl implements InitService {
     @Autowired
     private BookingService bookingService;
 
-    @Autowired
-    private LanguageService languageService;
+    List<UserType> userTypes = Arrays.asList(
+            new UserType("CUSTOMER"),
+            new UserType("ADMIN")
+    );
+
+    Users user1 = new Users();
+    Users user2 = new Users();
 
     List<Status> statuses = Arrays.asList(
-            new Status("UPCOMING"),
             new Status("RELEASED"),
-            new Status("BLOCKED"));
-
-    List<UserType> userTypes = Arrays.asList(
-            new UserType("Customer"),
-            new UserType("Admin"));
-
-    List<City> cities = Arrays.asList(
-            new City("patna"),
-            new City("bangalore"),
-            new City("kolkata"),
-            new City("mumbai"),
-            new City("ranchi"));
+            new Status("UPCOMING"),
+            new Status("BLOCKED")
+    );
 
     List<Language> languages = Arrays.asList(
             new Language("ENGLISH"),
             new Language("HINDI"),
-            new Language("PUNJABI")
+            new Language("PUNJABI"),
+            new Language("FRENCH")
     );
 
-    List<Theatre> theatres = Arrays.asList(
-            new Theatre("pvr", 300, cities.get(4)),
-            new Theatre("inox", 500, cities.get(3)),
-            new Theatre("plasma", 1000, cities.get(2))
+    List<City> cities = Arrays.asList(
+            new City("Mumbai"),
+            new City("Delhi"),
+            new City("Kolkata"),
+            new City("Bangalore"),
+            new City("Chennai")
     );
 
-    Movie movie = new Movie();
+    Movie movie1 = new Movie();
+    Movie movie2 = new Movie();
+    Movie movie3 = new Movie();
 
-    MovieTheatre movieTheatre = new MovieTheatre();
+    Theatre theatre1 = new Theatre();
+    Theatre theatre2 = new Theatre();
+    Theatre theatre3 = new Theatre();
 
-    Users user = new Users();
+    List<MovieTheatre> movieTheatres = Arrays.asList(
+            new MovieTheatre(movie1, theatre1),
+            new MovieTheatre(movie2, theatre2),
+            new MovieTheatre(movie3, theatre3)
+    );
+
+    List<Booking> bookings = Arrays.asList(
+            new Booking(LocalDateTime.of(2022, 6, 28, 15, 34), 2, user1, movieTheatres.get(0)),
+            new Booking(LocalDateTime.of(2022, 6, 28, 15, 35), 3, user2, movieTheatres.get(1))
+    );
 
     @Override
-    public void init() throws UserTypeDetailsNotFoundException, UserNameAlreadyExistsException, MovieDetailsNotFoundException, TheatreDetailsNotFoundException, MovieTheatreDetailsNotFoundException, UserDetailsNotFoundException {
+    public void init() throws UserTypeDetailsNotFoundException, UserNameAlreadyExistsException {
 
         /**
-         * write the logic to store data inside the database in different tables ...
-         */
-
-        /**
-         * add cities
-         */
-
-        createCities();
-
-        /**
-         * add user types
+         * create userTypes
          */
 
         createUserTypes();
 
         /**
-         * add statuses
-         */
-
-        createStatuses();
-
-        /**
-         * add theatres
-         */
-
-        createTheatres();
-
-        /**
-         * add movies
-         */
-
-        createMovies();
-
-        /**
-         * add languages
-         */
-
-        createLanguages();
-
-        /**
-         *  add users
+         * create users
          */
 
         createUsers();
 
         /**
-         * add movie-theatres
+         * create statuses
+         */
+
+        createStatuses();
+
+        /**
+         * create languages
+         */
+
+        createLanguages();
+
+        /**
+         * create cities
+         */
+
+        createCities();
+
+        /**
+         * create movies
+         */
+
+        createMovies();
+
+        /**
+         * create theatres
+         */
+
+        createTheatres();
+
+        /**
+         * create MovieTheatres
          */
 
         createMovieTheatres();
 
         /**
-         * add bookings
+         * create Bookings
          */
 
         createBookings();
 
     }
 
-    private void createBookings() throws MovieTheatreDetailsNotFoundException, UserDetailsNotFoundException {
-        Booking booking = new Booking();
-        booking.setUser(user);
-        booking.setMovieTheatre(movieTheatre);
-        booking.setBookingDate(LocalDateTime.of(2022, 6, 21, 18, 19));
-        booking.setNoOfSeats(120);
-
-        bookingService.acceptBookingDetails(booking);
+    private void createBookings() {
+        bookings.forEach(booking -> {
+            try {
+                bookingService.acceptBookingDetails(booking);
+            } catch (MovieTheatreDetailsNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (UserDetailsNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
-    private void createMovieTheatres() throws MovieDetailsNotFoundException, TheatreDetailsNotFoundException {
-
-        movieTheatre.setMovie(movie);
-        movieTheatre.setTheatre(theatres.get(0));
-
-        movieTheatreService.acceptMovieTheatreDetails(movieTheatre);
+    private void createMovieTheatres() {
+        movieTheatres.forEach(movieTheatre -> {
+            try {
+                movieTheatreService.acceptMovieTheatreDetails(movieTheatre);
+            } catch (MovieDetailsNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (TheatreDetailsNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private void createTheatres() {
-        theatres.forEach(theatre -> theatreService.acceptTheatreDetails(theatre));
+        theatre1.setTheatreName("Pvr");
+        theatre1.setTicketPrice(250);
+        theatre1.setCity(cities.get(0));
+        theatre1.setMovies(List.of(movie1, movie2));
+
+        theatreService.acceptTheatreDetails(theatre1);
+
+        theatre2.setTheatreName("Inox");
+        theatre2.setTicketPrice(500);
+        theatre2.setCity(cities.get(1));
+        theatre2.setMovies(List.of(movie2, movie3));
+
+        theatreService.acceptTheatreDetails(theatre2);
+
+        theatre3.setTheatreName("Carnival");
+        theatre3.setTicketPrice(1000);
+        theatre3.setCity(cities.get(2));
+        theatre3.setMovies(List.of(movie1, movie3));
+
+        theatreService.acceptTheatreDetails(theatre3);
+    }
+
+    private void createMovies() {
+        movie1.setMovieName("captain america first avenger");
+        movie1.setMovieDescription("steve rogers becomes captain america");
+        movie1.setDuration(120);
+        movie1.setReleaseDate(LocalDateTime.of(2022, 6, 28, 15, 9));
+        movie1.setTrailerUrl("http://www.captainAmericaFirstAvengerTrailerUrl.com");
+        movie1.setCoverPhotoUrl("http://www.captainAmericaFirstAvengerCoverPhotoUrl.com");
+        movie1.setStatus(statuses.get(0));
+
+        movieService.acceptMovieDetails(movie1);
+
+        movie2.setMovieName("captain america civil war");
+        movie2.setMovieDescription("captain and tony fights over sokovia accords");
+        movie2.setDuration(360);
+        movie2.setReleaseDate(LocalDateTime.of(2022, 6, 28, 15, 13));
+        movie2.setTrailerUrl("http://www.captainAmericaCivilWarTrailerUrl.com");
+        movie2.setCoverPhotoUrl("http://www.captainAmericaCivilWarCoverPhotoUrl.com");
+        movie2.setStatus(statuses.get(1));
+
+        movieService.acceptMovieDetails(movie2);
+
+        movie3.setMovieName("captain america winter soldier");
+        movie3.setMovieDescription("captain finds bucky");
+        movie3.setDuration(120);
+        movie3.setReleaseDate(LocalDateTime.of(2022, 6, 28, 15, 15));
+        movie3.setTrailerUrl("http://www.captainAmericaWinterSoldierTrailerUrl.com");
+        movie3.setCoverPhotoUrl("http://www.captainAmericaWinterSoldierCoverPhotoUrl.com");
+        movie3.setStatus(statuses.get(2));
+
+        movieService.acceptMovieDetails(movie3);
+    }
+
+    private void createCities() {
+        cities.forEach(city -> cityService.acceptCityDetails(city));
     }
 
     private void createLanguages() {
         languages.forEach(language -> languageService.acceptLanguageDetails(language));
     }
 
-    private void createUsers() throws UserNameAlreadyExistsException, UserTypeDetailsNotFoundException {
-
-        user.setFirstName("ritwik");
-        user.setLastName("chatterjee");
-        user.setDateOfBirth(LocalDateTime.of(2000, 4, 30, 12, 30));
-        user.setUsername("ritwik123");
-        user.setPassword("Ritwik@123");
-        user.setUserType(userTypes.get(0));
-        user.setLanguage(languages.get(0));
-        user.setPhoneNumbers(Set.of(123, 456, 789));
-
-        userService.acceptUserDetails(user);
-    }
-
-    private void createMovies() {
-        movie.setMovieName("movie_name");
-        movie.setMovieDescription("movie_description");
-        movie.setStatus(statuses.get(2));
-        movie.setDuration(120);
-        movie.setReleaseDate(LocalDateTime.of(2022, 6, 21, 17, 36));
-        movie.setCoverPhotoUrl("movie_cover_photo_url");
-        movie.setTrailerUrl("movie_trailer_url");
-//        movie.setTheatres(List.of(theatres.get(0), theatres.get(1)));
-
-        movieService.acceptMovieDetails(movie);
-    }
-
     private void createStatuses() {
         statuses.forEach(status -> statusService.acceptStatusDetails(status));
+    }
+
+    private void createUsers() throws UserNameAlreadyExistsException, UserTypeDetailsNotFoundException {
+        user1.setFirstName("Ritwik");
+        user1.setLastName("Chatterjee");
+        user1.setDateOfBirth(LocalDateTime.of(2000, 4, 30, 12, 30));
+        user1.setUsername("Ritwik@123");
+        user1.setPassword("mango@551");
+        user1.setPhoneNumbers(Set.of(123, 456, 789));
+        user1.setUserType(userTypes.get(1));
+
+        userService.acceptUserDetails(user1);
+
+        user2.setFirstName("Rishi");
+        user2.setLastName("Chatterjee");
+        user2.setDateOfBirth(LocalDateTime.of(2007, 11, 7, 3, 40));
+        user2.setUsername("Rishi@711");
+        user2.setPassword("orange@786");
+        user2.setPhoneNumbers(Set.of(321, 654, 987));
+        user2.setUserType(userTypes.get(0));
+
+        userService.acceptUserDetails(user2);
     }
 
     private void createUserTypes() {
         userTypes.forEach(userType -> userTypeService.acceptUserTypeDetails(userType));
     }
 
-    private void createCities() {
-        cities.forEach(city -> cityService.acceptCityDetails(city));
-    }
 }

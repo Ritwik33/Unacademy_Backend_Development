@@ -121,7 +121,47 @@ public class MovieController {
 
     }
 
+    /**
+     * I would like to update an already existing movie ...
+     *
+     * URI : PUT 127.0.0.1:8080/mbs/v1/movies/{movieId}
+     *
+     *  JSON BODY:
+     *
+     *    {
+     *      -----
+     *      -----
+     *      -----
+     *    }
+     *
+     */
 
+    @PutMapping(name = "/{movieId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MovieDTO> updateMovieDetails(@RequestBody MovieDTO movieDTO, @PathVariable(name = "movieId") int movieId)
+            throws MovieDetailsNotFoundException {
+        Movie searchedMovie = movieService.getMovieDetails(movieId);
+        Movie movieUpdater = convertMovieDTOToMovie(movieDTO);
+        Movie updatedMovie = movieService.updateMovieDetails(movieId, movieUpdater);
+        MovieDTO savedResponse = convertMovieToMovieDTO(updatedMovie);
+        return new ResponseEntity<MovieDTO> (savedResponse, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     *
+     * delete something ...
+     *
+     *  URI : DELETE 127.0.0.1:8080/mbs/v1/movies/{movieId}
+     *
+     */
+
+    @DeleteMapping(name = "/{movieId}")
+    public ResponseEntity<String> deleteMovie(@PathVariable(name = "movieId") int movieId) throws MovieDetailsNotFoundException {
+
+        movieService.deleteMovie(movieId);
+
+        return new ResponseEntity<String> ("DELETED", HttpStatus.OK);
+
+    }
 
     private MovieDTO convertMovieToMovieDTO(Movie movie) {
 

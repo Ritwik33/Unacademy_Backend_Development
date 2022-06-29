@@ -24,6 +24,12 @@ public interface MovieService {
     public Movie getMovieDetails(int id) throws MovieDetailsNotFoundException;
 
     /**
+     * get movie details by movieName
+     */
+
+    public Movie getMovieDetailsByMovieName(String movieName) throws MovieDetailsNotFoundException;
+
+    /**
      * I want to update the details of existing movie
      */
 

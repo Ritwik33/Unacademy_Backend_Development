@@ -17,176 +17,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mbs/v1/movies")
+@RequestMapping(value = "/mbs/v1/movies")
 public class MovieController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
 
     @Autowired
     private MovieService movieService;
 
-    /**
-     * we need to define the bean of ModelMapper first ...
-     *
-     * How to create the bean of a class which I have not created ???
-     * ---> create a method to return a ModelMapper Object and annotate that method with @Bean annotation ...
-     */
-
     @Autowired
     private ModelMapper modelMapper;
 
-    @GetMapping("/greetings")
-    public ResponseEntity<String> greetings() {
-        LOGGER.info("inside the hello world method");
-        return new ResponseEntity<String>("hello people", HttpStatus.OK);
-    }
-
-    /**
-     * get all the movies
-     *
-     * GET 127.0.0.1:8080/mbs/v1/movies
-     *
-     * @return
-     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
 
     @GetMapping
     public ResponseEntity<List<MovieDTO>> getAllMovies() {
-
         List<Movie> movies = movieService.getAllMovies();
-
         List<MovieDTO> movieDTOS = new ArrayList<>();
-
         movies.forEach(movie -> movieDTOS.add(convertMovieToMovieDTO(movie)));
-
-        return new ResponseEntity<List<MovieDTO>>(movieDTOS, HttpStatus.OK);
-
+        return new ResponseEntity<List<MovieDTO>> (movieDTOS, HttpStatus.OK);
     }
 
-    /**
-     * get the movie details based on the id
-     *
-     * GET 127.0.0.1:8080/mbs/v1/movies/{movieId}
-     */
-
-    @GetMapping("/{movieId}")
-    public ResponseEntity<MovieDTO> getMovieBasedOnId(@PathVariable(name = "movieId") int movieId)
+    @GetMapping(value = "/{movieId}")
+    public ResponseEntity<MovieDTO> getMovieBasedOnId(@PathVariable(value = "movieId") int movieId)
             throws MovieDetailsNotFoundException {
 
-        /**
-         * naive way ...
-         */
-
-        Movie movie = null;
+        Movie searchedMovie = null;
 
         try {
-            movie = movieService.getMovieDetails(movieId);
+            searchedMovie = movieService.getMovieDetails(movieId);
         } catch (MovieDetailsNotFoundException e) {
-            LOGGER.error("Bad request found for the id : " + movieId);
-            LOGGER.error("Error stack trace: " + e.getMessage());
-            return new ResponseEntity("movieId : [ " + movieId + " ] passed is not correct",
-                    HttpStatus.BAD_REQUEST);
+            LOGGER.error("bad request found for id : " + movieId);
+            LOGGER.error("error stack trace: " + e.getMessage());
+            return new ResponseEntity ("movie_id : [ " + movieId + " ] is not correct", HttpStatus.BAD_REQUEST);
         }
 
-        /**
-         * convert the Movie Object to MovieDto Object ...
-         */
-
-        MovieDTO movieDTO = convertMovieToMovieDTO(movie);
-
-        return new ResponseEntity<MovieDTO>(movieDTO, HttpStatus.OK);
-
+        MovieDTO responseBody = convertMovieToMovieDTO(searchedMovie);
+        return new ResponseEntity<MovieDTO> (responseBody, HttpStatus.OK);
     }
-
-    /**
-     * I want to create a new Movie
-     *
-     *  URI : POST 127.0.0.1:8080/mbs/v1/movies
-     *
-     *  BODY:
-     *    {
-     *       ----
-     *       ----
-     *       ----
-     *    }
-     *
-     */
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieDTO movieDTO) {
 
-        /**
-         * logic to create the movie
-         */
-
-        /**
-         * I need to create the new movie
-         */
-
-        /**
-         * i need to create movie object from movieDTO
-         */
-
         Movie movie = convertMovieDTOToMovie(movieDTO);
         Movie savedMovie = movieService.acceptMovieDetails(movie);
-
         MovieDTO responseBody = convertMovieToMovieDTO(savedMovie);
-
-        return new ResponseEntity<MovieDTO>(responseBody, HttpStatus.CREATED);
+        return new ResponseEntity<MovieDTO> (responseBody, HttpStatus.CREATED);
 
     }
 
-    /**
-     * I would like to update an already existing movie ...
-     *
-     * URI : PUT 127.0.0.1:8080/mbs/v1/movies/{movieId}
-     *
-     *  JSON BODY:
-     *
-     *    {
-     *      -----
-     *      -----
-     *      -----
-     *    }
-     *
-     */
-
-    @PutMapping(name = "/{movieId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MovieDTO> updateMovieDetails(@RequestBody MovieDTO movieDTO, @PathVariable(name = "movieId") int movieId)
+    @PutMapping(value = "/{movieId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MovieDTO> updateMovie(@RequestBody MovieDTO movieDTO, @PathVariable(value = "movieId") int movieId)
             throws MovieDetailsNotFoundException {
+
         Movie searchedMovie = movieService.getMovieDetails(movieId);
         Movie movieUpdater = convertMovieDTOToMovie(movieDTO);
         Movie updatedMovie = movieService.updateMovieDetails(movieId, movieUpdater);
-        MovieDTO savedResponse = convertMovieToMovieDTO(updatedMovie);
-        return new ResponseEntity<MovieDTO> (savedResponse, HttpStatus.ACCEPTED);
+        MovieDTO responseBody = convertMovieToMovieDTO(updatedMovie);
+        return new ResponseEntity<MovieDTO> (responseBody, HttpStatus.ACCEPTED);
+
     }
 
-    /**
-     *
-     * delete something ...
-     *
-     *  URI : DELETE 127.0.0.1:8080/mbs/v1/movies/{movieId}
-     *
-     */
-
-    @DeleteMapping(name = "/{movieId}")
-    public ResponseEntity<String> deleteMovie(@PathVariable(name = "movieId") int movieId) throws MovieDetailsNotFoundException {
+    @DeleteMapping(value = "/{movieId}")
+    public ResponseEntity<String> deleteMovie(@PathVariable(value = "movieId") int movieId)
+            throws MovieDetailsNotFoundException {
 
         movieService.deleteMovie(movieId);
-
-        return new ResponseEntity<String> ("DELETED", HttpStatus.OK);
-
-    }
-
-    private MovieDTO convertMovieToMovieDTO(Movie movie) {
-
-        MovieDTO movieDTO =  modelMapper.map(movie, MovieDTO.class);
-        return movieDTO;
+        return new ResponseEntity<String> ("Movie Deleted", HttpStatus.OK);
 
     }
 
     private Movie convertMovieDTOToMovie(MovieDTO movieDTO) {
-        Movie movie = modelMapper.map(movieDTO, Movie.class);
-        return movie;
+        return modelMapper.map(movieDTO, Movie.class);
+    }
+
+    private MovieDTO convertMovieToMovieDTO(Movie movie) {
+        return modelMapper.map(movie, MovieDTO.class);
     }
 
 }

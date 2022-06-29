@@ -42,6 +42,15 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Movie getMovieDetailsByMovieName(String movieName) throws MovieDetailsNotFoundException {
+         Movie savedMovie = (Movie) movieDao.findByMovieName(movieName);
+         if(savedMovie == null) {
+             throw new MovieDetailsNotFoundException("Movie not found by name: " + movieName);
+         }
+         return savedMovie;
+    }
+
+    @Override
     public Movie updateMovieDetails(int id, Movie movie) throws MovieDetailsNotFoundException {
         /**
          * update the movie

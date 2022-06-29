@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/mbs/v1/movies")
 public class MovieController {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
 
     @Autowired
     private MovieService movieService;
@@ -112,20 +112,27 @@ public class MovieController {
          * i need to create movie object from movieDTO
          */
 
-        Movie movie = modelMapper.map(movieDTO, Movie.class);
+        Movie movie = convertMovieDTOToMovie(movieDTO);
         Movie savedMovie = movieService.acceptMovieDetails(movie);
 
-        MovieDTO responseBody = modelMapper.map(savedMovie, MovieDTO.class);
+        MovieDTO responseBody = convertMovieToMovieDTO(savedMovie);
 
         return new ResponseEntity<MovieDTO>(responseBody, HttpStatus.CREATED);
 
     }
+
+
 
     private MovieDTO convertMovieToMovieDTO(Movie movie) {
 
         MovieDTO movieDTO =  modelMapper.map(movie, MovieDTO.class);
         return movieDTO;
 
+    }
+
+    private Movie convertMovieDTOToMovie(MovieDTO movieDTO) {
+        Movie movie = modelMapper.map(movieDTO, Movie.class);
+        return movie;
     }
 
 }

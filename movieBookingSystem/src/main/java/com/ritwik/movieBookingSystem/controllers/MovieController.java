@@ -40,18 +40,11 @@ public class MovieController {
     public ResponseEntity<MovieDTO> getMovieBasedOnId(@PathVariable(value = "movieId") int movieId)
             throws MovieDetailsNotFoundException {
 
-        Movie searchedMovie = null;
-
-        try {
-            searchedMovie = movieService.getMovieDetails(movieId);
-        } catch (MovieDetailsNotFoundException e) {
-            LOGGER.error("bad request found for id : " + movieId);
-            LOGGER.error("error stack trace: " + e.getMessage());
-            return new ResponseEntity ("movie_id : [ " + movieId + " ] is not correct", HttpStatus.BAD_REQUEST);
-        }
+        Movie searchedMovie = movieService.getMovieDetails(movieId);
 
         MovieDTO responseBody = convertMovieToMovieDTO(searchedMovie);
         return new ResponseEntity<MovieDTO> (responseBody, HttpStatus.OK);
+
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

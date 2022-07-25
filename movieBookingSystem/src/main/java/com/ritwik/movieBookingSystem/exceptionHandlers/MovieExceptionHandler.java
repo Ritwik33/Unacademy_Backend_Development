@@ -23,7 +23,7 @@ public class MovieExceptionHandler {
      * @return
      */
     @ExceptionHandler(value = MovieDetailsNotFoundException.class)
-    public ResponseEntity<String> handleMovieNotFoundException() {
+    public ResponseEntity<String> handleMovieDetailsNotFoundException() {
         LOGGER.error("Exception happened, movie id is not available");
         return new ResponseEntity<String>("Movie ID passed is not available", HttpStatus.BAD_REQUEST);
     }

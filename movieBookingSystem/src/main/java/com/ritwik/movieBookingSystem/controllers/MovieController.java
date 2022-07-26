@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/mbs/v1/movies")
+@RequestMapping(value = "/movies")
 public class MovieController {
 
     @Autowired

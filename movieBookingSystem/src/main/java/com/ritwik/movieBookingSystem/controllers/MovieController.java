@@ -2,8 +2,10 @@ package com.ritwik.movieBookingSystem.controllers;
 
 import com.ritwik.movieBookingSystem.dtos.MovieDTO;
 import com.ritwik.movieBookingSystem.entities.Movie;
+import com.ritwik.movieBookingSystem.exceptions.InvalidMovieNameException;
 import com.ritwik.movieBookingSystem.exceptions.MovieDetailsNotFoundException;
 import com.ritwik.movieBookingSystem.services.MovieService;
+import com.ritwik.movieBookingSystem.validators.MovieDTOValidator;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,9 @@ public class MovieController {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private MovieDTOValidator movieDTOValidator;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
 
@@ -48,7 +53,9 @@ public class MovieController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieDTO movieDTO) {
+    public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieDTO movieDTO) throws InvalidMovieNameException {
+
+        movieDTOValidator.validate(movieDTO);
 
         Movie movie = convertMovieDTOToMovie(movieDTO);
         Movie savedMovie = movieService.acceptMovieDetails(movie);

@@ -1,5 +1,6 @@
 package com.ritwik.movieBookingSystem.exceptionHandlers;
 
+import com.ritwik.movieBookingSystem.exceptions.InvalidMovieNameException;
 import com.ritwik.movieBookingSystem.exceptions.MovieDetailsNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,12 @@ public class MovieExceptionHandler {
     public ResponseEntity<String> handleMovieDetailsNotFoundException() {
         LOGGER.error("Exception happened, movie id is not available");
         return new ResponseEntity<String>("Movie ID passed is not available", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = InvalidMovieNameException.class)
+    public ResponseEntity<String> handleInvalidMovieNameException() {
+        LOGGER.error("Exception happened, Invalid Movie Name");
+        return new ResponseEntity<String>("Movie name not passed / Invalid", HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.unacademy.cartService.entities;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Cart {
@@ -9,8 +10,13 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int cartId;
 
-    @Column(nullable = false, unique = true)
-    private String customerName;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false, unique = true)
+    private Customer customer;
+
+    @ManyToMany
+    @JoinTable(joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    private List<Item> items;
 
     public int getCartId() {
         return cartId;
@@ -20,19 +26,29 @@ public class Cart {
         this.cartId = cartId;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override
     public String toString() {
         return "Cart{" +
                 "cartId=" + cartId +
-                ", customerName='" + customerName + '\'' +
+                ", customer=" + customer +
+                ", items=" + items +
                 '}';
     }
+
 }

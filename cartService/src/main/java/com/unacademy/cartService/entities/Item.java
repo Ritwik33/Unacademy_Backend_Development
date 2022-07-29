@@ -1,6 +1,8 @@
 package com.unacademy.cartService.entities;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Item {
@@ -12,10 +14,20 @@ public class Item {
     @Column(nullable = false)
     private String itemName;
 
-    @Column(length = 512)
+    @Column(name = "item_desc",length = 512)
     private String itemDescription;
 
+    @Column(nullable = false)
     private String category;
+
+    @Column(nullable = false)
+    private double cost;
+
+    @Column(name = "mfg_date", nullable = false)
+    private LocalDateTime manufacturingDate;
+
+    @ManyToMany(mappedBy = "items")
+    private List<Cart> carts;
 
     public int getItemId() {
         return itemId;
@@ -49,6 +61,22 @@ public class Item {
         this.category = category;
     }
 
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public LocalDateTime getManufacturingDate() {
+        return manufacturingDate;
+    }
+
+    public void setManufacturingDate(LocalDateTime manufacturingDate) {
+        this.manufacturingDate = manufacturingDate;
+    }
+
     @Override
     public String toString() {
         return "Item{" +
@@ -56,6 +84,9 @@ public class Item {
                 ", itemName='" + itemName + '\'' +
                 ", itemDescription='" + itemDescription + '\'' +
                 ", category='" + category + '\'' +
+                ", cost=" + cost +
+                ", manufacturingDate=" + manufacturingDate +
                 '}';
     }
+
 }

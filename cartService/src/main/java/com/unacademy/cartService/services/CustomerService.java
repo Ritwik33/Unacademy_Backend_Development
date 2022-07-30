@@ -17,10 +17,8 @@ public interface CustomerService {
 
     public List<Customer> getCustomersDetailsByCustomerName(String customerName) throws NoCustomerFoundWithThisNameException;
 
-    public List<Cart> getCartDetailsByCustomerName(String customerName) throws NoCustomerFoundWithThisNameException;
-
     public Customer updateCustomerDetails(int customerId, Customer customer) throws CustomerWithThisIdNotFoundException;
 
-    public boolean deleteCustomer(int customerId);
+    public boolean deleteCustomer(int customerId) throws CustomerWithThisIdNotFoundException;
 
 }

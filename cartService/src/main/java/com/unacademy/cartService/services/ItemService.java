@@ -1,8 +1,9 @@
 package com.unacademy.cartService.services;
 
+import com.unacademy.cartService.entities.Cart;
 import com.unacademy.cartService.entities.Item;
 import com.unacademy.cartService.exceptions.CartNotFoundForGivenIdException;
-import com.unacademy.cartService.exceptions.ItemNotFoundException;
+import com.unacademy.cartService.exceptions.ItemNotFoundForGivenIdException;
 import com.unacademy.cartService.exceptions.ItemWithThisNameNotFoundException;
 
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ public interface ItemService {
 
     public List<Item> createMultipleItems(List<Item> items);
 
-    public Item getItemDetailsByItemId(int itemId) throws ItemNotFoundException;
+    public Item getItemDetailsByItemId(int itemId) throws ItemNotFoundForGivenIdException;
 
     public Item getItemDetailsByItemName(String itemName) throws ItemWithThisNameNotFoundException;
 
@@ -24,10 +25,10 @@ public interface ItemService {
 
     public List<Item> getListOfAllItems();
 
-    public Item updateItem(int itemId, Item item) throws ItemNotFoundException;
+    public Item updateItem(int itemId, Item item) throws ItemNotFoundForGivenIdException;
 
-    public boolean deleteItem(int itemId) throws ItemNotFoundException;
+    public boolean deleteItem(int itemId) throws ItemNotFoundForGivenIdException;
 
-    public Item addItemToGivenCart(Item item, int cartId) throws CartNotFoundForGivenIdException;
+    public Cart addItemToGivenCart(Item item, int cartId) throws CartNotFoundForGivenIdException;
 
 }

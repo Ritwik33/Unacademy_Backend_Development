@@ -1,23 +1,30 @@
 package com.unacademy.cartService.services.Impl;
 
 import com.unacademy.cartService.daos.CartDao;
+import com.unacademy.cartService.daos.ItemDao;
 import com.unacademy.cartService.entities.Cart;
 import com.unacademy.cartService.entities.Customer;
 import com.unacademy.cartService.entities.Item;
 import com.unacademy.cartService.exceptions.CartNotFoundForGivenIdException;
 import com.unacademy.cartService.exceptions.CartNotFoundForGivenCustomerException;
-import com.unacademy.cartService.exceptions.ItemNotFoundException;
+import com.unacademy.cartService.exceptions.ItemNotFoundForGivenIdException;
 import com.unacademy.cartService.exceptions.ItemNotFoundInGivenCartException;
 import com.unacademy.cartService.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class CartServiceImpl implements CartService {
 
     @Autowired
     private CartDao cartDao;
+
+    @Autowired
+    private ItemDao itemDao;
 
     @Override
     public Cart createCart(Cart cart) {
@@ -55,21 +62,44 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart updateCart(int cartId, Cart cart) throws CartNotFoundForGivenIdException {
         Cart searchedCart = getCartDetailsByCartId(cartId);
+        if(isNotNullOrZero(cart.getCustomer())) {
+            searchedCart.setCustomer(cart.getCustomer());
+        }
+        if(isNotNullOrZero(cart.getItems())) {
+            searchedCart.setItems(cart.getItems());
+        }
+        return cartDao.save(searchedCart);
     }
 
     @Override
     public boolean deleteCart(int cartId) throws CartNotFoundForGivenIdException {
-        return false;
+        Cart searchedCart = getCartDetailsByCartId(cartId);
+        cartDao.delete(searchedCart);
+        return true;
     }
 
     @Override
     public Customer getCustomerByCartId(int cartId) throws CartNotFoundForGivenIdException {
-        return null;
+        Cart searchedCart = getCartDetailsByCartId(cartId);
+        return searchedCart.getCustomer();
     }
 
     @Override
-    public boolean removeItemFromGivenCart(int cartId, int itemId) throws CartNotFoundForGivenIdException, ItemNotFoundException, ItemNotFoundInGivenCartException {
-        return false;
+    public Cart removeItemFromGivenCart(int cartId, int itemId) throws
+            CartNotFoundForGivenIdException,
+            ItemNotFoundForGivenIdException,
+            ItemNotFoundInGivenCartException {
+
+        Cart searchedCart = getCartDetailsByCartId(cartId);
+        Optional<Item> searchedItem = itemDao.findById(itemId);
+        if(searchedCart.getItems().contains(searchedItem)) {
+            ArrayList<Item> foundItems = (ArrayList<Item>) searchedCart.getItems();
+            foundItems.remove(searchedItem);
+            searchedCart.setItems(foundItems);
+            return cartDao.save(searchedCart);
+        }
+        throw new ItemNotFoundInGivenCartException("Given item not found in the given cart");
+
     }
 
     private boolean isNotNullOrZero(Object obj) {

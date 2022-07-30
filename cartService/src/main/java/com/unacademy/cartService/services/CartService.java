@@ -13,20 +13,20 @@ public interface CartService {
 
     public List<Cart> createMultipleCarts(List<Cart> carts);
 
-    public Cart getCartDetailsByCartId(int cartId) throws CartNotFoundException;
+    public Cart getCartDetailsByCartId(int cartId) throws CartNotFoundForGivenIdException;
 
     public Cart getCartDetailsByCustomer(Customer customer) throws
-            CartNotFoundException;
+            CartNotFoundForGivenCustomerException;
 
-    public List<Item> getListOfAllItemsInTheCart(int cartId) throws CartNotFoundException;
+    public List<Item> getListOfAllItemsInTheCart(int cartId) throws CartNotFoundForGivenIdException;
 
-    public Cart updateCart(int cartId, Cart cart) throws CartNotFoundException;
+    public Cart updateCart(int cartId, Cart cart) throws CartNotFoundForGivenIdException;
 
-    public boolean deleteCart(int cartId) throws CartNotFoundException;
+    public boolean deleteCart(int cartId) throws CartNotFoundForGivenIdException;
 
-    public Customer getCustomerByCartId(int cartId) throws CartNotFoundException;
+    public Customer getCustomerByCartId(int cartId) throws CartNotFoundForGivenIdException;
 
-    public boolean removeItemFromGivenCart(int cartId, int itemId) throws CartNotFoundException,
+    public boolean removeItemFromGivenCart(int cartId, int itemId) throws CartNotFoundForGivenIdException,
             ItemNotFoundException,
             ItemNotFoundInGivenCartException;
 

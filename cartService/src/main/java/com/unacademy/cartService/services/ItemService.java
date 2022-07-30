@@ -1,8 +1,7 @@
 package com.unacademy.cartService.services;
 
-import com.unacademy.cartService.entities.Cart;
 import com.unacademy.cartService.entities.Item;
-import com.unacademy.cartService.exceptions.CartNotFoundException;
+import com.unacademy.cartService.exceptions.CartNotFoundForGivenIdException;
 import com.unacademy.cartService.exceptions.ItemNotFoundException;
 import com.unacademy.cartService.exceptions.ItemWithThisNameNotFoundException;
 
@@ -29,6 +28,6 @@ public interface ItemService {
 
     public boolean deleteItem(int itemId) throws ItemNotFoundException;
 
-    public Item addItemToGivenCart(Item item, int cartId) throws CartNotFoundException;
+    public Item addItemToGivenCart(Item item, int cartId) throws CartNotFoundForGivenIdException;
 
 }

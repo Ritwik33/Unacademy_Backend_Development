@@ -1,7 +1,7 @@
 package com.unacademy.cartService.entities;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -24,7 +24,7 @@ public class Item {
     private double cost;
 
     @Column(name = "mfg_date", nullable = false)
-    private LocalDateTime manufacturingDate;
+    private LocalDate manufacturingDate;
 
     @ManyToMany(mappedBy = "items")
     private List<Cart> carts;
@@ -69,11 +69,11 @@ public class Item {
         this.cost = cost;
     }
 
-    public LocalDateTime getManufacturingDate() {
+    public LocalDate getManufacturingDate() {
         return manufacturingDate;
     }
 
-    public void setManufacturingDate(LocalDateTime manufacturingDate) {
+    public void setManufacturingDate(LocalDate manufacturingDate) {
         this.manufacturingDate = manufacturingDate;
     }
 
@@ -88,5 +88,4 @@ public class Item {
                 ", manufacturingDate=" + manufacturingDate +
                 '}';
     }
-
 }

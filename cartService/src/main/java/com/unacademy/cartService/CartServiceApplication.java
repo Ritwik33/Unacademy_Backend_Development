@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootApplication
 public class CartServiceApplication {
@@ -19,6 +20,8 @@ public class CartServiceApplication {
 	public static void main(String[] args) {
 
 		ApplicationContext applicationContext = SpringApplication.run(CartServiceApplication.class, args);
+
+		CustomerDao customerDao = applicationContext.getBean(CustomerDao.class);
 
 	}
 

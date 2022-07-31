@@ -1,7 +1,6 @@
 package com.unacademy.cartService.entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,7 +10,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int cartId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "customer_id", nullable = false, unique = true)
     private Customer customer;
 

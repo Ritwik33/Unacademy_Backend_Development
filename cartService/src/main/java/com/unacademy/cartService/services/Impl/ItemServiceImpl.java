@@ -4,9 +4,7 @@ import com.unacademy.cartService.daos.CartDao;
 import com.unacademy.cartService.daos.ItemDao;
 import com.unacademy.cartService.entities.Cart;
 import com.unacademy.cartService.entities.Item;
-import com.unacademy.cartService.exceptions.CartNotFoundForGivenIdException;
-import com.unacademy.cartService.exceptions.ItemNotFoundForGivenIdException;
-import com.unacademy.cartService.exceptions.ItemWithThisNameNotFoundException;
+import com.unacademy.cartService.exceptions.*;
 import com.unacademy.cartService.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,23 +53,44 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getListOfItemsOfTheSameCategory(String category) {
+    public List<Item> getListOfItemsOfTheSameCategory(String category) throws
+            NoItemFoundWithTheGivenCategoryException {
 
-        return itemDao.findByCategory(category);
+        List<Item> foundItems = itemDao.findByCategory(category);
+
+        if(foundItems.isEmpty()) {
+            throw new NoItemFoundWithTheGivenCategoryException("No item found with the category: " + category);
+        }
+
+        return foundItems;
 
     }
 
     @Override
-    public List<Item> getListOfItemsManufacturedOnTheSameDate(LocalDate manufacturingDate) {
+    public List<Item> getListOfItemsManufacturedOnTheSameDate(LocalDate manufacturingDate) throws
+            NoItemFoundWithTheGivenManufacturingDateException {
 
-        return itemDao.findByManufacturingDate(manufacturingDate);
+        List<Item> foundItems = itemDao.findByManufacturingDate(manufacturingDate);
+
+        if(foundItems.isEmpty()) {
+            throw new NoItemFoundWithTheGivenManufacturingDateException(
+                    "No item found with the manufacturing Date: " + manufacturingDate);
+        }
+
+        return foundItems;
 
     }
 
     @Override
-    public List<Item> getListOfAllItems() {
+    public List<Item> getListOfAllItems() throws NoItemFoundException {
 
-        return itemDao.findAll();
+        List<Item> foundItems = itemDao.findAll();
+
+        if(foundItems.isEmpty()) {
+            throw new NoItemFoundException("no item found");
+        }
+
+        return foundItems;
 
     }
 
@@ -113,10 +132,29 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Cart addItemToGivenCart(Item item, int cartId) throws CartNotFoundForGivenIdException {
 
-        Cart searchedCart = cartService.getCartDetailsByCartId(cartId);
-        searchedCart.getItems().add(item);
-        return cartDao.save(searchedCart);
+        Cart foundCart = cartService.getCartDetailsByCartId(cartId);
+        foundCart.getItems().add(item);
+        return cartDao.save(foundCart);
 
+    }
+
+    @Override
+    public Cart addMultipleItemsToGivenCart(List<Item> items, int cartId) throws CartNotFoundForGivenIdException {
+
+        Cart foundCart = cartService.getCartDetailsByCartId(cartId);
+        items.forEach(item -> foundCart.getItems().add(item));
+        return cartDao.save(foundCart);
+
+    }
+
+    @Override
+    public List<Item> getListOfItemsOfTheSameCost(double cost) throws NoItemFoundAtThisCostException {
+
+        List<Item> foundItems = itemDao.findByCost(cost);
+        if(foundItems.isEmpty()) {
+            throw new NoItemFoundAtThisCostException("No item found at cost: " + cost);
+        }
+        return foundItems;
     }
 
     private boolean isNotNullOrZero(Object obj) {

@@ -1,17 +1,17 @@
 package com.unacademy.cartService.services.Impl;
 
 import com.unacademy.cartService.daos.CustomerDao;
-import com.unacademy.cartService.entities.Cart;
 import com.unacademy.cartService.entities.Customer;
-import com.unacademy.cartService.exceptions.CartNotFoundForGivenCustomerException;
 import com.unacademy.cartService.exceptions.CustomerWithThisIdNotFoundException;
 import com.unacademy.cartService.exceptions.NoCustomerFoundWithThisNameException;
 import com.unacademy.cartService.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
@@ -40,7 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
             NoCustomerFoundWithThisNameException {
 
         List<Customer> foundCustomers = customerDao.findByCustomerName(customerName);
-        if(foundCustomers == null) {
+        if(foundCustomers.isEmpty()) {
             throw new NoCustomerFoundWithThisNameException("no customer found with name: " + customerName);
         }
         return foundCustomers;
@@ -53,7 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer searchedCustomer = getCustomerDetailsByCustomerId(customerId);
 
-        if(customer.getCustomerName() != null) {
+        if(isNotNullOrZero(customer.getCustomerName())) {
             searchedCustomer.setCustomerName(customer.getCustomerName());
         }
 
@@ -65,5 +65,21 @@ public class CustomerServiceImpl implements CustomerService {
         Customer searchedCustomer = getCustomerDetailsByCustomerId(customerId);
         customerDao.delete(searchedCustomer);
         return true;
+    }
+
+    private boolean isNotNullOrZero(Object obj) {
+        return obj != null;
+    }
+
+    private boolean isNotNullOrZero(int val) {
+        return val != 0;
+    }
+
+    private boolean isNotNullOrZero(double val) {
+        return val > 0.00;
+    }
+
+    private boolean isNotNullOrZero(float val) {
+        return val > 0.00;
     }
 }

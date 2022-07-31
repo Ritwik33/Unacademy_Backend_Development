@@ -1,7 +1,6 @@
 package com.unacademy.cartService.entities;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Customer {
@@ -13,8 +12,9 @@ public class Customer {
     @Column(nullable = false)
     private String customerName;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Cart> carts;
+    @OneToOne(mappedBy = "customer")
+    @JoinColumn(unique = true)
+    private Cart cart;
 
     public int getCustomerId() {
         return customerId;

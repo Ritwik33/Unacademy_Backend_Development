@@ -6,7 +6,7 @@ import com.unacademy.cartService.entities.Cart;
 import com.unacademy.cartService.entities.Customer;
 import com.unacademy.cartService.entities.Item;
 import com.unacademy.cartService.exceptions.CartNotFoundForGivenIdException;
-import com.unacademy.cartService.exceptions.CartNotFoundForGivenCustomerException;
+import com.unacademy.cartService.exceptions.NoCartFoundForGivenCustomerException;
 import com.unacademy.cartService.exceptions.ItemNotFoundForGivenIdException;
 import com.unacademy.cartService.exceptions.ItemNotFoundInGivenCartException;
 import com.unacademy.cartService.services.CartService;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -45,10 +44,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart getCartDetailsByCustomer(Customer customer) throws CartNotFoundForGivenCustomerException {
+    public Cart getCartDetailsByCustomer(Customer customer) throws NoCartFoundForGivenCustomerException {
         Cart searchedCart = cartDao.findByCustomer(customer);
         if(searchedCart == null) {
-            throw new CartNotFoundForGivenCustomerException("Cart not found for the given customer: " + customer);
+            throw new NoCartFoundForGivenCustomerException("no cart found for the given customer: " + customer);
         }
         return searchedCart;
     }
@@ -91,13 +90,17 @@ public class CartServiceImpl implements CartService {
             ItemNotFoundInGivenCartException {
 
         Cart searchedCart = getCartDetailsByCartId(cartId);
-        Optional<Item> searchedItem = itemDao.findById(itemId);
+
+        Item searchedItem = itemDao.findById(itemId).orElseThrow(() ->
+                new ItemNotFoundForGivenIdException("Item not found for the given id: " + itemId));
+
         if(searchedCart.getItems().contains(searchedItem)) {
             ArrayList<Item> foundItems = (ArrayList<Item>) searchedCart.getItems();
             foundItems.remove(searchedItem);
             searchedCart.setItems(foundItems);
             return cartDao.save(searchedCart);
         }
+
         throw new ItemNotFoundInGivenCartException("Given item not found in the given cart");
 
     }

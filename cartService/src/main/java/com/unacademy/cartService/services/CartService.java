@@ -16,7 +16,7 @@ public interface CartService {
     public Cart getCartDetailsByCartId(int cartId) throws CartNotFoundForGivenIdException;
 
     public Cart getCartDetailsByCustomer(Customer customer) throws
-            CartNotFoundForGivenCustomerException;
+            NoCartFoundForGivenCustomerException;
 
     public List<Item> getListOfAllItemsInTheCart(int cartId) throws CartNotFoundForGivenIdException;
 

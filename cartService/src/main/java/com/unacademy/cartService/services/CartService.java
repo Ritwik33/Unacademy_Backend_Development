@@ -26,7 +26,8 @@ public interface CartService {
 
     public Customer getCustomerByCartId(int cartId) throws CartNotFoundForGivenIdException;
 
-    public Cart removeItemFromGivenCart(int cartId, int itemId) throws CartNotFoundForGivenIdException,
+    public Cart removeItemFromGivenCart(int cartId, int itemId) throws
+            CartNotFoundForGivenIdException,
             ItemNotFoundForGivenIdException,
             ItemNotFoundInGivenCartException;
 

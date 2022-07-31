@@ -89,16 +89,13 @@ public class CartServiceImpl implements CartService {
             ItemNotFoundForGivenIdException,
             ItemNotFoundInGivenCartException {
 
-        Cart searchedCart = getCartDetailsByCartId(cartId);
+        Cart foundCart = getCartDetailsByCartId(cartId);
+        Item foundItem = itemDao.findById(itemId).orElseThrow(() ->
+                new ItemNotFoundForGivenIdException("Item not found with id: " + itemId));
 
-        Item searchedItem = itemDao.findById(itemId).orElseThrow(() ->
-                new ItemNotFoundForGivenIdException("Item not found for the given id: " + itemId));
-
-        if(searchedCart.getItems().contains(searchedItem)) {
-            ArrayList<Item> foundItems = (ArrayList<Item>) searchedCart.getItems();
-            foundItems.remove(searchedItem);
-            searchedCart.setItems(foundItems);
-            return cartDao.save(searchedCart);
+        if(foundCart.getItems().contains(foundItem)) {
+            foundCart.getItems().remove(foundItem);
+            return cartDao.save(foundCart);
         }
 
         throw new ItemNotFoundInGivenCartException("Given item not found in the given cart");

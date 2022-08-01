@@ -140,19 +140,32 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Cart addItemToGivenCart(Item item, int cartId) throws CartNotFoundForGivenIdException {
+    public Cart addItemToGivenCart(int itemId, int cartId)
+            throws ItemNotFoundForGivenIdException,
+            CartNotFoundForGivenIdException {
 
         Cart foundCart = cartService.getCartDetailsByCartId(cartId);
-        foundCart.getItems().add(item);
+        Item foundItem = itemDao.findById(itemId).orElseThrow(() ->
+                new ItemNotFoundForGivenIdException("Item not found for id: " + itemId));
+        foundCart.getItems().add(foundItem);
         return cartDao.save(foundCart);
 
     }
 
     @Override
-    public Cart addMultipleItemsToGivenCart(List<Item> items, int cartId) throws CartNotFoundForGivenIdException {
+    public Cart addMultipleItemsToGivenCart(List<Integer> itemIds, int cartId) throws CartNotFoundForGivenIdException {
 
+        List<Item> foundItems = new ArrayList<>();
+        itemIds.forEach(itemId -> {
+            try {
+                foundItems.add(itemDao.findById(itemId).orElseThrow(() ->
+                        new ItemNotFoundForGivenIdException("item not found for id: " + itemId)));
+            } catch (ItemNotFoundForGivenIdException e) {
+                throw new RuntimeException(e);
+            }
+        });
         Cart foundCart = cartService.getCartDetailsByCartId(cartId);
-        items.forEach(item -> foundCart.getItems().add(item));
+        foundItems.forEach(item -> foundCart.getItems().add(item));
         return cartDao.save(foundCart);
 
     }

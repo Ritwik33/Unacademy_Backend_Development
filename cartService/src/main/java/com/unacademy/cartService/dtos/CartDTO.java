@@ -1,17 +1,17 @@
 package com.unacademy.cartService.dtos;
 
-import com.unacademy.cartService.entities.Customer;
-import com.unacademy.cartService.entities.Item;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class CartDTO {
 
+    @JsonProperty(value = "cart_id")
     private int cartId;
 
-    private Customer customer;
+    private CustomerDTO customer;
 
-    private List<Item> items;
+    private List<ItemDTO> items;
 
     public int getCartId() {
         return cartId;
@@ -21,19 +21,19 @@ public class CartDTO {
         this.cartId = cartId;
     }
 
-    public Customer getCustomer() {
+    public CustomerDTO getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(CustomerDTO customer) {
         this.customer = customer;
     }
 
-    public List<Item> getItems() {
+    public List<ItemDTO> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(List<ItemDTO> items) {
         this.items = items;
     }
 

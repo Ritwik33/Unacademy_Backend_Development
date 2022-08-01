@@ -30,8 +30,8 @@ public interface ItemService {
 
     public boolean deleteItem(int itemId) throws ItemNotFoundForGivenIdException;
 
-    public Cart addItemToGivenCart(Item item, int cartId) throws CartNotFoundForGivenIdException;
+    public Cart addItemToGivenCart(int itemId, int cartId) throws ItemNotFoundForGivenIdException,CartNotFoundForGivenIdException;
 
-    public Cart addMultipleItemsToGivenCart(List<Item> items, int cartId) throws CartNotFoundForGivenIdException;
+    public Cart addMultipleItemsToGivenCart(List<Integer> itemIds, int cartId) throws CartNotFoundForGivenIdException;
 
 }

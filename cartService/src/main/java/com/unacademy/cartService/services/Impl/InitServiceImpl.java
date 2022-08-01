@@ -117,7 +117,7 @@ public class InitServiceImpl implements InitService {
 
         item8.setItemName("Nachos");
         item8.setItemDescription("Pair it up with salsa");
-        item8.setCost(450);
+        item8.setCost(500);
         item8.setCategory("Foods and beverages");
         item8.setManufacturingDate(LocalDate.of(2022, 8, 14));
 

@@ -1,7 +1,6 @@
 package com.unacademy.cartService.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.unacademy.cartService.entities.Cart;
 
 public class CustomerDTO {
 

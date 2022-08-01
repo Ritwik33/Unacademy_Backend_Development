@@ -5,9 +5,7 @@ import com.unacademy.cartService.entities.Customer;
 import com.unacademy.cartService.exceptions.CustomerWithThisIdNotFoundException;
 import com.unacademy.cartService.exceptions.NoCustomerExistsException;
 import com.unacademy.cartService.exceptions.NoCustomerFoundWithThisNameException;
-import com.unacademy.cartService.services.Impl.CartServiceImpl;
 import com.unacademy.cartService.services.Impl.CustomerServiceImpl;
-import com.unacademy.cartService.services.Impl.ItemServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +34,18 @@ public class CustomerController {
         return new ResponseEntity<CustomerDTO>(responseBody, HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "/customerList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CustomerDTO>> createMultipleCustomers(@RequestBody List<CustomerDTO> customerDTOS) {
+
+        List<Customer> customers = new ArrayList<>();
+        customerDTOS.forEach(customerDTO -> customers.add(convertCustomerDTOToCustomer(customerDTO)));
+        List<Customer> savedCustomers = customerService.createMultipleCustomers(customers);
+        List<CustomerDTO> responseBody = new ArrayList<>();
+        savedCustomers.forEach(customer -> responseBody.add(convertCustomerToCustomerDTO(customer)));
+        return new ResponseEntity<List<CustomerDTO>>(responseBody, HttpStatus.CREATED);
+
+    }
+
     @GetMapping(value = "/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerDTO> getCustomerDetailsByCustomerId(@PathVariable(value = "customerId") int customerId)
             throws CustomerWithThisIdNotFoundException {
@@ -57,6 +67,14 @@ public class CustomerController {
 
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CustomerDTO>> getListOfAllCustomers() throws NoCustomerExistsException {
+        List<Customer> foundCustomers = customerService.getAllCustomers();
+        List<CustomerDTO> responseBody = new ArrayList<CustomerDTO>();
+        foundCustomers.forEach(customer -> responseBody.add(convertCustomerToCustomerDTO(customer)));
+        return new ResponseEntity<List<CustomerDTO>>(responseBody, HttpStatus.OK);
+    }
+
     @PutMapping(value = "/{customerId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerDTO> updateCustomerDetails(@PathVariable(value = "customerId") int customerId, @RequestBody CustomerDTO customerDTO)
             throws CustomerWithThisIdNotFoundException {
@@ -66,14 +84,6 @@ public class CustomerController {
         CustomerDTO responseBody = convertCustomerToCustomerDTO(updatedCustomer);
         return new ResponseEntity<CustomerDTO>(responseBody, HttpStatus.ACCEPTED);
 
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CustomerDTO>> getListOfAllCustomers() throws NoCustomerExistsException {
-        List<Customer> foundCustomers = customerService.getAllCustomers();
-        List<CustomerDTO> responseBody = new ArrayList<CustomerDTO>();
-        foundCustomers.forEach(customer -> responseBody.add(convertCustomerToCustomerDTO(customer)));
-        return new ResponseEntity<List<CustomerDTO>>(responseBody, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{customerId}")

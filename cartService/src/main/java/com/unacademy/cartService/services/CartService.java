@@ -22,11 +22,11 @@ public interface CartService {
 
     public List<Cart> getAllCarts() throws NoCartExistsException;
 
+    public Customer getCustomerByCartId(int cartId) throws CartNotFoundForGivenIdException;
+
     public Cart updateCart(int cartId, Cart cart) throws CartNotFoundForGivenIdException;
 
     public boolean deleteCart(int cartId) throws CartNotFoundForGivenIdException;
-
-    public Customer getCustomerByCartId(int cartId) throws CartNotFoundForGivenIdException;
 
     public Cart removeItemFromGivenCart(int cartId, int itemId) throws
             CartNotFoundForGivenIdException,

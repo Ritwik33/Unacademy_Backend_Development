@@ -1,30 +1,17 @@
-package com.unacademy.cartService.entities;
+package com.unacademy.cartService.dtos;
 
-import javax.persistence.*;
+import com.unacademy.cartService.entities.Customer;
+import com.unacademy.cartService.entities.Item;
+
 import java.util.List;
 
-@Entity
-public class Cart {
+public class CartDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int cartId;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id", nullable = false, unique = true)
     private Customer customer;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> items;
-
-    public Cart() {
-    }
-
-    public Cart(Customer customer, List<Item> items) {
-        this.customer = customer;
-        this.items = items;
-    }
 
     public int getCartId() {
         return cartId;
@@ -52,11 +39,10 @@ public class Cart {
 
     @Override
     public String toString() {
-        return "Cart{" +
+        return "CartDTO{" +
                 "cartId=" + cartId +
                 ", customer=" + customer +
                 ", items=" + items +
                 '}';
     }
-
 }

@@ -24,7 +24,7 @@ public interface ItemService {
     public List<Item> getListOfItemsManufacturedOnTheSameDate(LocalDate manufacturingDate)
             throws NoItemFoundWithTheGivenManufacturingDateException;
 
-    public List<Item> getListOfAllItems() throws NoItemFoundException;
+    public List<Item> getListOfAllItems() throws NoItemExistsException;
 
     public Item updateItem(int itemId, Item item) throws ItemNotFoundForGivenIdException;
 

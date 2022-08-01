@@ -16,6 +16,13 @@ public class Customer {
     @JoinColumn(unique = true)
     private Cart cart;
 
+    public Customer() {
+    }
+
+    public Customer(String customerName) {
+        this.customerName = customerName;
+    }
+
     public int getCustomerId() {
         return customerId;
     }

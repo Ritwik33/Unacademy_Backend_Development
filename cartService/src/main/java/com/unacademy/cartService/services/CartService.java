@@ -20,6 +20,8 @@ public interface CartService {
 
     public List<Item> getListOfAllItemsInTheCart(int cartId) throws CartNotFoundForGivenIdException;
 
+    public List<Cart> getAllCarts() throws NoCartExistsException;
+
     public Cart updateCart(int cartId, Cart cart) throws CartNotFoundForGivenIdException;
 
     public boolean deleteCart(int cartId) throws CartNotFoundForGivenIdException;

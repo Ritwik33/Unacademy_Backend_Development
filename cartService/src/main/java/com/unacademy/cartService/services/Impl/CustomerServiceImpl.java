@@ -3,6 +3,7 @@ package com.unacademy.cartService.services.Impl;
 import com.unacademy.cartService.daos.CustomerDao;
 import com.unacademy.cartService.entities.Customer;
 import com.unacademy.cartService.exceptions.CustomerWithThisIdNotFoundException;
+import com.unacademy.cartService.exceptions.NoCustomerExistsException;
 import com.unacademy.cartService.exceptions.NoCustomerFoundWithThisNameException;
 import com.unacademy.cartService.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,18 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return foundCustomers;
 
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() throws NoCustomerExistsException {
+
+        List<Customer> foundCustomers = customerDao.findAll();
+
+        if(foundCustomers.isEmpty()) {
+            throw new NoCustomerExistsException("No Customer exists as of now");
+        }
+
+        return foundCustomers;
     }
 
     @Override

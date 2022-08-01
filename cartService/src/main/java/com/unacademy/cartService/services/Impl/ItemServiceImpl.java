@@ -82,12 +82,22 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> getListOfAllItems() throws NoItemFoundException {
+    public List<Item> getListOfItemsOfTheSameCost(double cost) throws NoItemFoundAtThisCostException {
+
+        List<Item> foundItems = itemDao.findByCost(cost);
+        if(foundItems.isEmpty()) {
+            throw new NoItemFoundAtThisCostException("No item found at cost: " + cost);
+        }
+        return foundItems;
+    }
+
+    @Override
+    public List<Item> getListOfAllItems() throws NoItemExistsException {
 
         List<Item> foundItems = itemDao.findAll();
 
         if(foundItems.isEmpty()) {
-            throw new NoItemFoundException("no item found");
+            throw new NoItemExistsException("no item found");
         }
 
         return foundItems;
@@ -145,16 +155,6 @@ public class ItemServiceImpl implements ItemService {
         items.forEach(item -> foundCart.getItems().add(item));
         return cartDao.save(foundCart);
 
-    }
-
-    @Override
-    public List<Item> getListOfItemsOfTheSameCost(double cost) throws NoItemFoundAtThisCostException {
-
-        List<Item> foundItems = itemDao.findByCost(cost);
-        if(foundItems.isEmpty()) {
-            throw new NoItemFoundAtThisCostException("No item found at cost: " + cost);
-        }
-        return foundItems;
     }
 
     private boolean isNotNullOrZero(Object obj) {

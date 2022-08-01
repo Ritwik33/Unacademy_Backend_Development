@@ -5,10 +5,7 @@ import com.unacademy.cartService.daos.ItemDao;
 import com.unacademy.cartService.entities.Cart;
 import com.unacademy.cartService.entities.Customer;
 import com.unacademy.cartService.entities.Item;
-import com.unacademy.cartService.exceptions.CartNotFoundForGivenIdException;
-import com.unacademy.cartService.exceptions.NoCartFoundForGivenCustomerException;
-import com.unacademy.cartService.exceptions.ItemNotFoundForGivenIdException;
-import com.unacademy.cartService.exceptions.ItemNotFoundInGivenCartException;
+import com.unacademy.cartService.exceptions.*;
 import com.unacademy.cartService.services.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +56,25 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Customer getCustomerByCartId(int cartId) throws CartNotFoundForGivenIdException {
+        Cart searchedCart = getCartDetailsByCartId(cartId);
+        return searchedCart.getCustomer();
+    }
+
+    @Override
+    public List<Cart> getAllCarts() throws NoCartExistsException {
+
+        List<Cart> foundCarts = cartDao.findAll();
+
+        if(foundCarts.isEmpty()) {
+            throw new NoCartExistsException("No Cart Exists as of now");
+        }
+
+        return foundCarts;
+
+    }
+
+    @Override
     public Cart updateCart(int cartId, Cart cart) throws CartNotFoundForGivenIdException {
         Cart searchedCart = getCartDetailsByCartId(cartId);
         if(isNotNullOrZero(cart.getCustomer())) {
@@ -75,12 +91,6 @@ public class CartServiceImpl implements CartService {
         Cart searchedCart = getCartDetailsByCartId(cartId);
         cartDao.delete(searchedCart);
         return true;
-    }
-
-    @Override
-    public Customer getCustomerByCartId(int cartId) throws CartNotFoundForGivenIdException {
-        Cart searchedCart = getCartDetailsByCartId(cartId);
-        return searchedCart.getCustomer();
     }
 
     @Override

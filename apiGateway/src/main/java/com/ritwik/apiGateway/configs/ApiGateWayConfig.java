@@ -29,10 +29,10 @@ public class ApiGateWayConfig {
 
     @Bean
     public RouteLocator gateWayRoutes(RouteLocatorBuilder builder) {
-        return builder.routes().route(r -> r.path("/ms1/v1/**")
-                .uri("lb://MICROSERVICE1").id("microservice1"))
-                .route(r -> r.path("/ms2/v1/**")
-                        .uri("lb://MICROSERVICE2").id("microservice2")).build();
+        return builder.routes()
+                .route(r -> r.path("/ms1/v1/**").uri("lb://MICROSERVICE1"))
+                .route(r -> r.path("/ms2/v1/**").uri("lb://MICROSERVICE2"))
+                .build();
     }
 
 }

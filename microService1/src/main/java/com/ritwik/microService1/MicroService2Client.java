@@ -1,5 +1,6 @@
 package com.ritwik.microService1;
 
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 //@FeignClient(value = "myFeignClient", url = "http://localhost:7072")
 @FeignClient(value = "MICROSERVICE2")
+@LoadBalancerClient(value = "MICROSERVICE2", configuration = LoadBalancerConfigurations.class)
 public interface MicroService2Client {
 
     /**

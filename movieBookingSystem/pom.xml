@@ -16,7 +16,7 @@
 	<description>This is the spring boot project for creating a movie booking system</description>
 
 	<properties>
-		<java.version>18</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>

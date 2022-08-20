@@ -1,0 +1,5 @@
+com\vishwa\KafkaProducerApp\dto\MessageDTO.class
+com\vishwa\KafkaProducerApp\services\MessageServiceImpl.class
+com\vishwa\KafkaProducerApp\KafkaProducerAppApplication.class
+com\vishwa\KafkaProducerApp\services\MessageService.class
+com\vishwa\KafkaProducerApp\controller\MessageController.class

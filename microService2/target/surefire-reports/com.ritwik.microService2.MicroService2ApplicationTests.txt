@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.ritwik.microService2.MicroService2ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.066 s <<< FAILURE! - in com.ritwik.microService2.MicroService2ApplicationTests
+contextLoads  Time elapsed: 0.011 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.cloud.config.client.ConfigClientFailFastException: Could not locate PropertySource and the resource is not optional, failing
+Caused by: org.springframework.web.client.ResourceAccessException: I/O error on GET request for "http://localhost:8888/microservice2/default": Connection refused: no further information; nested exception is java.net.ConnectException: Connection refused: no further information
+Caused by: java.net.ConnectException: Connection refused: no further information
+

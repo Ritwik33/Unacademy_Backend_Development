@@ -16,7 +16,7 @@
 	<description>This is the spring boot project for creating a movie booking system</description>
 
 	<properties>
-		<java.version>18</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>
@@ -42,6 +42,18 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 	</dependencies>

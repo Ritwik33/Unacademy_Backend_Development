@@ -38,4 +38,5 @@ public class MovieBookingSystemApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+
 }

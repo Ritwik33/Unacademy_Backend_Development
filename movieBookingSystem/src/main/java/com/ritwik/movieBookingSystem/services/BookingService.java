@@ -16,4 +16,5 @@ public interface BookingService {
     public boolean deleteBooking(int id) throws BookingDetailsNotFoundException;
 
     public List<Booking> getAllBookingDetails();
+
 }

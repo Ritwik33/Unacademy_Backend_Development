@@ -25,13 +25,13 @@ public class InitServiceImpl implements InitService {
 
     List<Customer> customers = Arrays.asList(
             new Customer("Ritwik Chatterjee"),
-            new Customer("Rishi Chatterjee"),
-            new Customer("Ramashish Chatterjee"),
-            new Customer("Payal Chatterjee"),
+            new Customer("Aniket Kumar"),
+            new Customer("Abhishek Anand"),
+            new Customer("kumar Monty Prakash"),
             new Customer("Mayank Kumar"),
-            new Customer("Manas Mandal"),
-            new Customer("Ritesh Sharma"),
-            new Customer("Ritwik Chatterjee")
+            new Customer("Ayush Tripathi"),
+            new Customer("Harsh Singh"),
+            new Customer("Dhananjay Jaiswal")
     );
 
     Item item1 = new Item();
@@ -73,32 +73,32 @@ public class InitServiceImpl implements InitService {
     }
 
     private void createItems() {
-        item1.setItemName("shilajit");
-        item1.setItemDescription("boosts testesterone");
-        item1.setCost(1400);
-        item1.setCategory("HealthCare");
+        item1.setItemName("Duffle Bag");
+        item1.setItemDescription("A must have for gym freaks");
+        item1.setCost(1500);
+        item1.setCategory("Luggage");
         item1.setManufacturingDate(LocalDate.of(2022, 8, 01));
 
-        item2.setItemName("Ashwagandha");
-        item2.setItemDescription("for stress relief, muscle strength and vitality");
-        item2.setCost(599);
-        item2.setCategory("HealthCare");
+        item2.setItemName("Park Avenue Deo");
+        item2.setItemDescription("Awesome fragrance, creates an Aura");
+        item2.setCost(450);
+        item2.setCategory("Perfumes and Deodorants");
         item2.setManufacturingDate(LocalDate.of(2022, 5, 14));
 
-        item3.setItemName("Gokshura");
-        item3.setItemDescription("Vitality booster and promotes muscle gain");
-        item3.setCost(399);
-        item3.setCategory("HealthCare");
+        item3.setItemName("Muscle Blaze Whey Isolate");
+        item3.setItemDescription("25gms of protein in a single scoop of protein, Improved muscle recovery");
+        item3.setCost(4500);
+        item3.setCategory("Foods and Beverages");
         item3.setManufacturingDate(LocalDate.of(2022, 6, 14));
 
-        item4.setItemName("Shatavari");
-        item4.setItemDescription("boosts immunity");
-        item4.setCost(800);
-        item4.setCategory("HealthCare");
+        item4.setItemName("Boat Earbuds");
+        item4.setItemDescription("Awesome sound quality");
+        item4.setCost(2500);
+        item4.setCategory("Electronics");
         item4.setManufacturingDate(LocalDate.of(2022, 1, 15));
 
-        item5.setItemName("Becosules Capsules");
-        item5.setItemDescription("Vitamin B complex + vitamin C");
+        item5.setItemName("Neurobion Forte");
+        item5.setItemDescription("Vitamin B complex + vitamin C supplement");
         item5.setCost(46);
         item5.setCategory("HealthCare");
         item5.setManufacturingDate(LocalDate.of(2022, 3, 26));
@@ -131,7 +131,7 @@ public class InitServiceImpl implements InitService {
         item10.setItemDescription("cost : 24999 \n camera : 64mp + 8mp + 2mp \n storage : 128gb + 8gb \n " +
                 "Processor : Dimensity 900 Octa-Core \n Os : OxygenOS Version V11.3 \n model : IV2201");
         item10.setCost(24999);
-        item10.setCategory("Phones and Computers");
+        item10.setCategory("Electronics");
         item10.setManufacturingDate(LocalDate.of(2022, 5, 14));
 
         itemService.createMultipleItems(items);

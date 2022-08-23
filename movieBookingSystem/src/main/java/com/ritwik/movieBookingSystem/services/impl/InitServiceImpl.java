@@ -59,7 +59,8 @@ public class InitServiceImpl implements InitService {
             new Language("ENGLISH"),
             new Language("HINDI"),
             new Language("PUNJABI"),
-            new Language("FRENCH")
+            new Language("FRENCH"),
+            new Language("BENGALI")
     );
 
     List<City> cities = Arrays.asList(

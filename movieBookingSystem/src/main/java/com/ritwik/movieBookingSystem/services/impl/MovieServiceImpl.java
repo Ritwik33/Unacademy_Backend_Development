@@ -12,33 +12,21 @@ import java.util.List;
 @Service
 public class MovieServiceImpl implements MovieService {
 
-    /**
-     * to talk with the database, I need the help of MovieDao
-     * @param movie
-     * @return
-     */
-
     @Autowired
     private MovieDao movieDao;
 
     @Override
     public Movie acceptMovieDetails(Movie movie) {
 
-        /**
-         * with the help of movieDao save into db
-         */
-
         return movieDao.save(movie);
+
     }
 
     @Override
     public Movie getMovieDetails(int id) throws MovieDetailsNotFoundException {
 
-        /**
-         * fetch the movie details based on id
-         */
-
         return movieDao.findById(id).orElseThrow(() -> new MovieDetailsNotFoundException("Movie not found for id" + id));
+
     }
 
     @Override
@@ -52,16 +40,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie updateMovieDetails(int id, Movie movie) throws MovieDetailsNotFoundException {
-        /**
-         * update the movie
-         */
 
         Movie savedMovie =
                 movieDao.findById(id).orElseThrow(() -> new MovieDetailsNotFoundException("Movie not found for id" + id));
-
-        /**
-         * read the attributes from the movie object and update it in savedMovie ...
-         */
 
         if(isNotNullOrZero(movie.getMovieName())) {
             savedMovie.setMovieName(movie.getMovieName());

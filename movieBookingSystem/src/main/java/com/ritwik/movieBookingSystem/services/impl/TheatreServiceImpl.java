@@ -1,7 +1,11 @@
 package com.ritwik.movieBookingSystem.services.impl;
 
 import com.ritwik.movieBookingSystem.daos.TheatreDao;
+import com.ritwik.movieBookingSystem.entities.Movie;
 import com.ritwik.movieBookingSystem.entities.Theatre;
+import com.ritwik.movieBookingSystem.exceptions.NoTheatreContainingThisStringException;
+import com.ritwik.movieBookingSystem.exceptions.NoTheatreFoundAtThisPriceException;
+import com.ritwik.movieBookingSystem.exceptions.NoTheatreFoundWithTheGivenNameException;
 import com.ritwik.movieBookingSystem.exceptions.TheatreDetailsNotFoundException;
 import com.ritwik.movieBookingSystem.services.TheatreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,33 @@ public class TheatreServiceImpl implements TheatreService {
     }
 
     @Override
+    public List<Theatre> getTheatreDetailsBasedOnName(String theatreName) throws NoTheatreFoundWithTheGivenNameException {
+        List<Theatre> foundTheatres = theatreDao.findByTheatreName(theatreName);
+        if(foundTheatres.isEmpty()) {
+            throw new NoTheatreFoundWithTheGivenNameException();
+        }
+        return foundTheatres;
+    }
+
+    @Override
+    public List<Theatre> getTheatreDetailsWithTicketPriceLessThan(float ticketPrice) throws NoTheatreFoundAtThisPriceException {
+        List<Theatre> foundTheatres = theatreDao.findByTicketPriceLessThan(ticketPrice);
+        if(foundTheatres.isEmpty()) {
+            throw new NoTheatreFoundAtThisPriceException();
+        }
+        return foundTheatres;
+    }
+
+    @Override
+    public List<Theatre> getTheatreDetailsBasedOnNameContainingAString(String theatreName) throws NoTheatreContainingThisStringException {
+        List<Theatre> foundTheatres = theatreDao.findByTheatreNameContaining(theatreName);
+        if(foundTheatres.isEmpty()) {
+            throw new NoTheatreContainingThisStringException();
+        }
+        return foundTheatres;
+    }
+
+    @Override
     public Theatre updateTheatreDetails(int id, Theatre theatre) throws TheatreDetailsNotFoundException {
         Theatre savedTheatre = getTheatreDetails(id);
 
@@ -44,14 +75,6 @@ public class TheatreServiceImpl implements TheatreService {
         return theatreDao.save(savedTheatre);
     }
 
-    private boolean isNotNullOrZero(Object obj) {
-        return obj != null;
-    }
-
-    private boolean isNotNullOrZero(float val) {
-        return val >= 0.1f;
-    }
-
     @Override
     public boolean deleteTheatre(int id) throws TheatreDetailsNotFoundException {
         Theatre savedTheatre = getTheatreDetails(id);
@@ -62,6 +85,20 @@ public class TheatreServiceImpl implements TheatreService {
     @Override
     public List<Theatre> getAllTheatreDetails() {
         return theatreDao.findAll();
+    }
+
+    @Override
+    public List<Movie> getListOfMoviesInATheatre(int theatreId) throws TheatreDetailsNotFoundException {
+        Theatre foundTheatre = getTheatreDetails(theatreId);
+        return foundTheatre.getMovies();
+    }
+
+    private boolean isNotNullOrZero(Object obj) {
+        return obj != null;
+    }
+
+    private boolean isNotNullOrZero(float val) {
+        return val >= 0.1f;
     }
 
 }

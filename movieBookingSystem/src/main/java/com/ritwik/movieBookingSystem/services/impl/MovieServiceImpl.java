@@ -30,12 +30,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie getMovieDetailsByMovieName(String movieName) throws MovieDetailsNotFoundException {
-         Movie savedMovie = (Movie) movieDao.findByMovieName(movieName);
-         if(savedMovie == null) {
+    public List<Movie> getMovieDetailsByMovieName(String movieName) throws MovieDetailsNotFoundException {
+         List<Movie> foundMovies = movieDao.findByMovieName(movieName);
+         if(foundMovies.isEmpty()) {
              throw new MovieDetailsNotFoundException("Movie not found by name: " + movieName);
          }
-         return savedMovie;
+         return foundMovies;
     }
 
     @Override

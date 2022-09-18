@@ -27,7 +27,7 @@ public interface MovieService {
      * get movie details by movieName
      */
 
-    public Movie getMovieDetailsByMovieName(String movieName) throws MovieDetailsNotFoundException;
+    public List<Movie> getMovieDetailsByMovieName(String movieName) throws MovieDetailsNotFoundException;
 
     /**
      * I want to update the details of existing movie

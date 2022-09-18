@@ -43,12 +43,12 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public City getCityDetailsByCityName(String cityName) throws CityDetailsNotFoundException {
-        City savedCity = cityDao.findByCityName(cityName);
-        if(savedCity == null) {
+    public List<City> getCityDetailsByCityName(String cityName) throws CityDetailsNotFoundException {
+        List<City> foundCities = cityDao.findByCityName(cityName);
+        if(foundCities.isEmpty()) {
             throw new CityDetailsNotFoundException("city not found for cityname: " + cityName);
         }
-        return savedCity;
+        return foundCities;
     }
 
     @Override

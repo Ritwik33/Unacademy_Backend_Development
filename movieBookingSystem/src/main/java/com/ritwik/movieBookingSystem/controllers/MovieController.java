@@ -2,8 +2,7 @@ package com.ritwik.movieBookingSystem.controllers;
 
 import com.ritwik.movieBookingSystem.dtos.MovieDTO;
 import com.ritwik.movieBookingSystem.entities.Movie;
-import com.ritwik.movieBookingSystem.exceptions.InvalidMovieNameException;
-import com.ritwik.movieBookingSystem.exceptions.MovieDetailsNotFoundException;
+import com.ritwik.movieBookingSystem.exceptions.*;
 import com.ritwik.movieBookingSystem.services.MovieService;
 import com.ritwik.movieBookingSystem.validators.MovieDTOValidator;
 import org.modelmapper.ModelMapper;
@@ -33,12 +32,23 @@ public class MovieController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MovieController.class);
 
-    @GetMapping
-    public ResponseEntity<List<MovieDTO>> getAllMovies() {
-        List<Movie> movies = movieService.getAllMovies();
-        List<MovieDTO> movieDTOS = new ArrayList<>();
-        movies.forEach(movie -> movieDTOS.add(convertMovieToMovieDTO(movie)));
-        return new ResponseEntity<List<MovieDTO>> (movieDTOS, HttpStatus.OK);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieDTO movieDTO) throws
+            InvalidMovieNameException,
+            InvalidMovieDurationException,
+            InvalidMovieDescriptionException,
+            InvalidCoverPhotoUrlException,
+            InvalidTrailerUrlException,
+            InvalidReleaseDateException,
+            InvalidStatusIdException {
+
+        movieDTOValidator.validate(movieDTO);
+
+        Movie movie = convertMovieDTOToMovie(movieDTO);
+        Movie savedMovie = movieService.acceptMovieDetails(movie);
+        MovieDTO responseBody = convertMovieToMovieDTO(savedMovie);
+        return new ResponseEntity<MovieDTO> (responseBody, HttpStatus.CREATED);
+
     }
 
     @GetMapping(value = "/{movieId}")
@@ -52,15 +62,17 @@ public class MovieController {
 
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MovieDTO> createMovie(@RequestBody MovieDTO movieDTO) throws InvalidMovieNameException {
+    @GetMapping(value = "/movieName/{movieName}")
+    public ResponseEntity<List<MovieDTO>> getMovieBasedOnName(@PathVariable(value = "movieName") String movieName)
+            throws MovieDetailsNotFoundException {
 
-        movieDTOValidator.validate(movieDTO);
+        List<Movie> searchedMovies = movieService.getMovieDetailsByMovieName(movieName);
 
-        Movie movie = convertMovieDTOToMovie(movieDTO);
-        Movie savedMovie = movieService.acceptMovieDetails(movie);
-        MovieDTO responseBody = convertMovieToMovieDTO(savedMovie);
-        return new ResponseEntity<MovieDTO> (responseBody, HttpStatus.CREATED);
+        List<MovieDTO> responseBody = new ArrayList<MovieDTO>();
+
+        searchedMovies.forEach(movie -> responseBody.add(convertMovieToMovieDTO(movie)));
+
+        return new ResponseEntity<List<MovieDTO>>(responseBody, HttpStatus.OK);
 
     }
 
@@ -83,6 +95,14 @@ public class MovieController {
         movieService.deleteMovie(movieId);
         return new ResponseEntity<String> ("Movie Deleted", HttpStatus.OK);
 
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MovieDTO>> getAllMovies() {
+        List<Movie> movies = movieService.getAllMovies();
+        List<MovieDTO> movieDTOS = new ArrayList<>();
+        movies.forEach(movie -> movieDTOS.add(convertMovieToMovieDTO(movie)));
+        return new ResponseEntity<List<MovieDTO>> (movieDTOS, HttpStatus.OK);
     }
 
     private Movie convertMovieDTOToMovie(MovieDTO movieDTO) {

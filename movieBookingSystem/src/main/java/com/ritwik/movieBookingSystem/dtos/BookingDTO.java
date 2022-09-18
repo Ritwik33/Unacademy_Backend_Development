@@ -1,38 +1,24 @@
-package com.ritwik.movieBookingSystem.entities;
+package com.ritwik.movieBookingSystem.dtos;
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 
-@Entity
-public class Booking {
+public class BookingDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty(value = "booking-id")
     private int bookingId;
 
-    @Column(nullable = false)
+    @JsonProperty(value = "booking-date")
     private LocalDateTime bookingDate;
 
-    @Column(nullable = false)
+    @JsonProperty(value = "no-of-seats")
     private int noOfSeats;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+    private UserDTO user;
 
-    @ManyToOne
-    @JoinColumn(name = "movie_theatre_id", nullable = false)
-    private MovieTheatre movieTheatre;
-
-    public Booking() {
-    }
-
-    public Booking(LocalDateTime bookingDate, int noOfSeats, Users user, MovieTheatre movieTheatre) {
-        this.bookingDate = bookingDate;
-        this.noOfSeats = noOfSeats;
-        this.user = user;
-        this.movieTheatre = movieTheatre;
-    }
+    @JsonProperty(value = "movie-theatre")
+    private MovieTheatreDTO movieTheatre;
 
     public int getBookingId() {
         return bookingId;
@@ -58,25 +44,25 @@ public class Booking {
         this.noOfSeats = noOfSeats;
     }
 
-    public Users getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(Users user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 
-    public MovieTheatre getMovieTheatre() {
+    public MovieTheatreDTO getMovieTheatre() {
         return movieTheatre;
     }
 
-    public void setMovieTheatre(MovieTheatre movieTheatre) {
+    public void setMovieTheatre(MovieTheatreDTO movieTheatre) {
         this.movieTheatre = movieTheatre;
     }
 
     @Override
     public String toString() {
-        return "Booking{" +
+        return "BookingDTO{" +
                 "bookingId=" + bookingId +
                 ", bookingDate=" + bookingDate +
                 ", noOfSeats=" + noOfSeats +
